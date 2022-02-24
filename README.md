@@ -15,10 +15,14 @@ Mendoza Reyes, Juan Diego   -   juandiem@ucm.es
 
 ## Resumen
 
-La práctica consiste en implementar un prototipo de una simulación de la leyenda de El Flautista de Hamelín, la cual trata de un personaje capaz de controlar a las ratas con la melodía de su flauta.
-La práctica consta en que el jugador controle el movimiento del flautista por un escenario mientras que el perro y las ratas son controlados por agentes inteligentes previamente creados por código. En principio el perro y el flautista son agentes que ya se encuentran en el pueblo, mientras que las ratas van saliendo del pozo y casas.
-El perro estará persiguiendo constantemente al jugador a donde quiera que él vaya, aunque éste teme a las ratas y aún mas cuando hay demasiadas juntas. 
-El comportamiento de las ratas que se encuentran en el escenario consiste en seguir al jugador siempre y cuando éste toque la flauta ( usando la barra espaciadora), pero son lo suficientemente listas como para no chocar entre ellas y de llegar de manera ordenada a la posición del flautista. Cuando el jugador no esté tocando la flauta, todas las ratas dejarán de seguirle y seguirán un movimiento errático, un merodeo sin destino alguno por el mapa.
+La práctica consiste en implementar un prototipo de una simulación del mito del minotauro y perseo, consistente en la aventura del héroe buscando la salida del laberinto, mientras el minotauro, una criatura mitológica mitad toro mitad persona, le busca 
+para acabar con su vida, perseo debe encontrar la salida siguiendo el hilo de Ariadna, que ignora la magia del laberinto.
+La práctica consta de un laberinto divido por caillas en el que se encontraran: perseo(el jugador) y el minotauro.
+El laberinto se genera mediante la lectura de un documento de texto con un tamaño configurable y con más de una salida, las salidas tendrán distinta longitud desde el punnto de salida de perseo y tendrán distinta anchura.
+El minotauro empieza en el centro del laberinto y merodea por los caminos del mismo hasta que ve a perseo, en este momento empieza a perseguirlo.
+Perseo es nuestro personaje controlable, el cual se mueve con las flechas del teclado, si presionamos espacio, este control se detiene y perseo empieza a seguir el hilo de Ariadna por su cuenta; Perseo no puede camina a través de la casilla donde está el
+minotauro.
+El hilo de Ariadna se muestra cuando pulsamos el espacio, dibujándose una línea blanca por el camino que sigue perseo, y resaltando las casillas en blanco, el hilo va por el camino más eficiente.
 
 ## Descripción Punto de Partida
 
