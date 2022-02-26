@@ -79,6 +79,7 @@ namespace UCM.IAV.Navegacion
                     vertexObjs = new GameObject[numRows * numCols];
                     mapVertices = new bool[numRows, numCols];
 
+
                     for (i = 0; i < numRows; i++)
                     {
                         line = strmRdr.ReadLine();
