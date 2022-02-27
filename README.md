@@ -40,11 +40,9 @@ Vertex: Cada uno de los vértices del grafo
 ## Descripción de la solución
 
 La solución consta de la implementación de 3 nuevos componentes:
-+ Componente Wander, perteneciente al agente rata, encargado de que las ratas se muevan de forma errática mientras el avatar no toque la flauta
-+ Componente Seguir(Reformado), perteneciente al agente rata, encargado de que persiga al avatar por el escenario evitando los obstáculos por el camino y manteniendo una distacia entre las otras ratas.
-+ Componente DogMovement, perteneciente al perro, responsable de seguir al flautista por el escenario, evitando los obstaculos y ratas intentando mantenerse cerca del avatar
-
-La solución constará de implementar tres nuevos componentes, el componente Wander, encargado de que las ratas se muevan de forma errática mientras no sigan al flautista, el componente Separation encargado de que las ratas se mantengan a una distancia coherente y el componente FollowNDodge, encargado de que los agentes no se choquen contras los obstáculos del escenario.
++ Componente MapGenerator, que se encarga de la generación prodecdural de laberintos.
++ El componente FindPath, que usaremos para encontrar el camino más corto mediante el hilo de Ariadna.
++ El componente FollowPath, que llevará a Teseo a seguir el camino que le indique el hilo de Ariadna.
 
 ### Opcionales
 
@@ -57,7 +55,26 @@ La solución también consta de funcionalidades opcionlaes tales como:
 
 El pseudocódigo de dichos componentes:
 
-## Seek(Rata y Perro)
+## MazeGenerator(Map)
+```python
+ function maze(level: Level, start: Location):
+ # A stack of locations we can branch from.
+locations = [start]
+level.startAt(start)
+
+while locations:
+current = locations.top()
+
+# Try to connect to a neighboring location.
+ next = level.makeConnection(current)
+ if next:
+ # If successful, it will be our next iteration.
+ locations.push(next)
+ else:
+ locations.pop()
+```
+
+## Seek(Minotauro)
 ```python
 class KinematicSeek:
  character: Static
@@ -83,7 +100,7 @@ class KinematicSeek:
  return result
 ```
 
-### Wander(Rata)
+### Wander(Minotauro)
 ```python
 class KinematicWander :
   character: Static
@@ -105,51 +122,7 @@ class KinematicWander :
    return result;
 ```
 
-###  Arrive (Perro)
-```python
-class KinematicArrive:
-
-	character: Static
-	target: Static
-	
-	maxSpeed: float
-    
-	# The satisfaction radius.
-	radius: float
-    
- 	# The time to target constant.
- 	timeToTarget: float = 0.25
-    
- 	function getSteering() -> KinematicSteeringOutput:
- 	result = new KinematicSteeringOutput()
-    
- 	# Get the direction to the target.
- 	result.velocity = target.position - character.position
-    
- 	# Check if we’re within radius.
- 	if result.velocity.length() < radius:
- 	# Request no steering.
- 	return null
-    
- 	# We need to move to our target, we’d like to
- 	# get there in timeToTarget seconds.
- 	result.velocity /= timeToTarget
-    
- 	# If this is too fast, clip it to the max speed.
- 	if result.velocity.length() > maxSpeed:
- 	result.velocity.normalize()
- 	result.velocity *= maxSpeed
-    
- 	# Face in the direction we want to move.
- 	character.orientation = newOrientation(
- 	character.orientation,
- 	result.velocity)
-    
- 	result.rotation = 0
- 	return result;
-```
-
-### CollisionAvoidance (Rata)
+### CollisionAvoidance (Minotauro)
 ```python
 class CollisionAvoidance:
  character: Kinematic
@@ -223,45 +196,7 @@ class CollisionAvoidance:
  return result
 ```
 
-### Separate (Rata y Perro)
-```python
-class Separation:
- character: Kinematic
- maxAcceleration: float
-
- # A list of potential targets.
- targets: Kinematic[]
-
- # The threshold to take action.
- threshold: float
-
- # The constant coefficient of decay for the inverse square law.
- decayCoefficient: float
-
- function getSteering() -> SteeringOutput:
- result = new SteeringOutput()
-
- # Loop through each target.
- for target in targets:
-	# Check if the target is close.
-	direction = target.position - character.position
-	distance = direction.length()
-
-	if distance < threshold:
-	# Calculate the strength of repulsion
-	# (here using the inverse square law).
-		strength = min(
-			decayCoefficient / (distance * distance),
-			maxAcceleration)
-
-	# Add the acceleration.
-	direction.normalize()
-	result.linear += strength * direction
-
- return result
-```
-
-### Wall Avoidance (Rata y Perro)
+### Wall Avoidance (Minotauro)
 ```python
 class ObstacleAvoidance extends Seek:
  detector: CollisionDetector
