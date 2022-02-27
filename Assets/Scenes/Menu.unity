@@ -893,7 +893,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textSize: {fileID: 1488646372}
-  sizeMaxLimit: 25
+  sizeMaxLimit: 34
   sizeMinLimit: 10
 --- !u!1 &981758651
 GameObject:

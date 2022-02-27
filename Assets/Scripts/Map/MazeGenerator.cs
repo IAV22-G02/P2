@@ -52,7 +52,17 @@ namespace Maze {
             }
         }
 
+        public void addSize(ref string s_, string toAdd, int size){
+            for (int i = 0; i < size; i++){
+                s_ += toAdd;
+            }
+        }
+
         public void Display() {
+            //int size = _rng.Next(0, 2);
+            int size = 0;
+            _width += 3 * size;
+            
             string filename = Application.dataPath + "/Maps/map.map";
 
             StreamWriter file = new StreamWriter(filename);
@@ -61,25 +71,73 @@ namespace Maze {
             file.WriteLine("width " + (_width * 3 + 1));
             file.WriteLine("map");
 
+            var h0 = "TTT";
+            var h1 = "T..";
+            var h2 = "T..";
+            var h3 = "...";
+
+            addSize(ref h0, "TTTT", size);
+            addSize(ref h1, "....", size);
+            addSize(ref h2, "....", size);
+            addSize(ref h3, "....", size);
+
+            string s = "S..";
+            string f = "F";
+            bool start = false;
+            bool finish = false;
+
             var firstLine = string.Empty;
             for (var y = 0; y < _height; y++)
             {
                 var sbTop = new StringBuilder();
                 var sbMid = new StringBuilder();
-                for (var x = 0; x < _width; x++) {
-                    sbTop.Append(this[x, y].HasFlag(CellState.Top) ? "TTT" : "T..");
-                    sbMid.Append(this[x, y].HasFlag(CellState.Left) ? "T.." : "...");
+                for (var x = 0; x < _width; x++){
+
+                    if(_rng.Next(0, 2) == 1 && y > 0 && x == 0 && !start && !this[x, y].HasFlag(CellState.Top)){
+                        start = true;
+                        sbTop.Append(s);
+                    }
+                    else sbTop.Append(this[x, y].HasFlag(CellState.Top) ? h0 : h1);
+
+                    sbMid.Append(this[x, y].HasFlag(CellState.Left) ? h2 : h3);
                 }
                 if (firstLine == string.Empty)
                     firstLine = sbTop.ToString();
 
 
-
                 file.WriteLine(sbTop + "T");
-                file.WriteLine(sbMid + "T");
-                file.WriteLine(sbMid + "T");
+                Console.WriteLine(sbTop + "T");
+
+
+                if(y > 0 && y < _height && _rng.Next(0, 3) == 1 && !finish && sbMid[sbMid.Length - 1] != 'T'){
+                    finish = true;
+
+                    if(_rng.Next(0,2) == 1){
+                        file.WriteLine(sbMid + f);
+                        Console.WriteLine(sbMid + f);
+
+                        file.WriteLine(sbMid + "T");
+                        Console.WriteLine(sbMid + "T");
+                    }
+                    else{
+                        file.WriteLine(sbMid + "T");
+                        Console.WriteLine(sbMid + "T");
+
+                        file.WriteLine(sbMid + f);
+                        Console.WriteLine(sbMid + f);
+                    }
+                }
+                else{
+                    file.WriteLine(sbMid + "T");
+                    Console.WriteLine(sbMid + "T");
+
+                    file.WriteLine(sbMid + "T");
+                    Console.WriteLine(sbMid + "T");
+                }
+               
             }
             file.WriteLine(firstLine + "T");
+            Console.WriteLine(firstLine + "T");
 
             file.Close();
         }

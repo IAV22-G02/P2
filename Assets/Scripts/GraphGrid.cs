@@ -24,6 +24,8 @@ namespace UCM.IAV.Navegacion
     public class GraphGrid : Graph
     {
         public GameObject obstaclePrefab;
+        public GameObject startObstaclePrefab;
+        public GameObject finishObstaclePrefab;
         public string mapsDir = "Maps"; // Directorio por defecto
         public string mapName = "arena.map"; // Fichero por defecto
         public bool get8Vicinity = false;
@@ -92,10 +94,16 @@ namespace UCM.IAV.Navegacion
                             position.x = j * cellSize;
                             position.z = i * cellSize;
                             id = GridToId(j, i);
-                            if (isGround)
-                                vertexObjs[id] = Instantiate(vertexPrefab, position, Quaternion.identity) as GameObject;
-                            else
-                                vertexObjs[id] = Instantiate(obstaclePrefab, position, Quaternion.identity) as GameObject;
+                            if (isGround){
+                               vertexObjs[id] = Instantiate(vertexPrefab, position, Quaternion.identity) as GameObject;
+                            }
+                            else {
+                                if (line[j] == 'S')
+                                    vertexObjs[id] = Instantiate(startObstaclePrefab, position, Quaternion.identity) as GameObject;
+                                else if (line[j] == 'F')
+                                    vertexObjs[id] = Instantiate(finishObstaclePrefab, position, Quaternion.identity) as GameObject;
+                                else vertexObjs[id] = Instantiate(obstaclePrefab, position, Quaternion.identity) as GameObject;
+                            }
                             vertexObjs[id].name = vertexObjs[id].name.Replace("(Clone)", id.ToString());
                             Vertex v = vertexObjs[id].AddComponent<Vertex>();
                             v.id = id;
