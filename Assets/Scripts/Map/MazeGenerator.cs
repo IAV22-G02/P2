@@ -14,9 +14,16 @@ namespace Maze {
         private int _height;
         private System.Random _rng;
 
+        private bool start = false;
+        private bool finish = false;
+
         public MazeGenerator(){
             _rng = new System.Random();
         }
+
+        public bool getStart() => start;
+
+        public bool getFinish() => finish;
 
         public void setSize(int width, int height){
             _width = width;
@@ -83,12 +90,11 @@ namespace Maze {
 
             string s = "S..";
             string f = "F";
-            bool start = false;
-            bool finish = false;
+            start = false;
+            finish = false;
 
             var firstLine = string.Empty;
-            for (var y = 0; y < _height; y++)
-            {
+            for (var y = 0; y < _height; y++){
                 var sbTop = new StringBuilder();
                 var sbMid = new StringBuilder();
                 for (var x = 0; x < _width; x++){
@@ -108,8 +114,7 @@ namespace Maze {
                 file.WriteLine(sbTop + "T");
                 Console.WriteLine(sbTop + "T");
 
-
-                if(y > 0 && y < _height && _rng.Next(0, 3) == 1 && !finish && sbMid[sbMid.Length - 1] != 'T'){
+                if(y > 0 && y < _height && _rng.Next(0, 2) == 1 && !finish && sbMid[sbMid.Length - 1] != 'T'){
                     finish = true;
 
                     if(_rng.Next(0,2) == 1){
@@ -144,8 +149,7 @@ namespace Maze {
     }
 
     public static class Extensions{
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, System.Random rng)
-        {
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, System.Random rng) {
             var e = source.ToArray();
             for (var i = e.Length - 1; i >= 0; i--)
             {
