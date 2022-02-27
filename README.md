@@ -26,15 +26,16 @@ El hilo de Ariadna se muestra cuando pulsamos el espacio, dibujándose una líne
 
 ## Descripción Punto de Partida
 
-# [Commit](https://github.com/IAV22-G02/P1/commit/dd470391ea01ce1da7fded614117dca8c68ad11d) de Punto de Partida 
+# [Commit](https://github.com/IAV22-G02/P2/commit/ed26cda0429e6a28e262607879a93b947d5fc54e) de Punto de Partida 
 
-La escena de Unity consta con una jaula en la que se encuentran tres objetos, todos siendo esferas. El agente flautista (jugador), el agente que huye (perro), y el agente que persigue (ratas). 
+La escena incial contiene un grid con un mapa de prueba, modelos para el minotauro y teseo, materiales y prefabs para los obstaculos además de los siguientes scripts:
 
-Cada uno de los agentes contiene un script que les otorga el comportamiento descrito anteriormente. Estos heredan de una clase padre llama ComportamientoAgente la cual contiene el método que actualiza su posición en función de una dirección. Asimismo difiere entre tres posibilidades para determinar la dirección:
-Combinar por Peso: asigna una dirección dada, multiplicada por un factor que modifica el módulo de dicha dirección (siendo esta un Vector3). 
-Combinar por Prioridad: asigna una dirección dentro de un lista que se identifica por un factor de prioridad. Existen varias listas dentro de un mapa, cada una con distintas prioridades. Se selecciona una dirección en función de un umbral de prioridad.
-Dirección Absoluta: la dirección es simplemente determinada por el input del jugador.
-La selección de esta dirección se realiza en el componente Agente , el cual lo tienen todos los agentes. Este también se encarga de aplicar la dirección al objeto, manteniendo una rotación máxima (que no debe superar el rango de 0º < <= α <= 360º), una aceleración y velocidad máxima.
+BinaryHip: Una pila de información útil para ordenar datos e implementar colas de prioridad.
+Edge: Conexión entre nodos, útil para calcular el coste de atravesar una casilla.
+Graph: Clase abstracta para implementar grafos.
+GraphGrid: Clase que genera el mapa a partir de un archivo .map
+TesterGrahh: Clase que contiene distintos algoritmos para encontrar caminos en grafos.
+Vertex: Cada uno de los vértices del grafo
 
 ## Descripción de la solución
 
