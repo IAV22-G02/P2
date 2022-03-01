@@ -10,26 +10,26 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: -4832917706791456621}
-    m_Position: {x: 240, y: 90, z: 0}
+    m_State: {fileID: -6216640375806370664}
+    m_Position: {x: 170, y: 80, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 110, y: -20, z: 0}
+  m_AnyStatePosition: {x: 190, y: -40, z: 0}
   m_EntryPosition: {x: 90, y: 200, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: -4832917706791456621}
---- !u!1102 &-4832917706791456621
+  m_DefaultState: {fileID: -6216640375806370664}
+--- !u!1102 &-6216640375806370664
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MinotaurAnimationSet
+  m_Name: Armature|Walk_Angry
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -42,7 +42,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 2538934510544302123, guid: f72893a6b440cea46b0e86312221c8b6,
+  m_Motion: {fileID: -8120883485824815002, guid: 3320b19b2c8dc814f834eea8fd81e1f7,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
