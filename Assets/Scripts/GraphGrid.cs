@@ -40,6 +40,13 @@ namespace UCM.IAV.Navegacion
         GameObject[] vertexObjs;
         bool[,] mapVertices;
 
+        //Player
+        [InspectorName("Teseo")]
+        public GameObject player;
+
+        [InspectorName("Minotauro")]
+        public GameObject monster;
+
         private int GridToId(int x, int y)
         {
             return Math.Max(numRows, numCols) * y + x;
@@ -99,7 +106,10 @@ namespace UCM.IAV.Navegacion
                             }
                             else {
                                 if (line[j] == 'S')
+                                {
                                     vertexObjs[id] = Instantiate(startObstaclePrefab, position, Quaternion.identity) as GameObject;
+                                    if (player != null) player.transform.position = position;
+                                }
                                 else if (line[j] == 'F')
                                     vertexObjs[id] = Instantiate(finishObstaclePrefab, position, Quaternion.identity) as GameObject;
                                 else vertexObjs[id] = Instantiate(obstaclePrefab, position, Quaternion.identity) as GameObject;
