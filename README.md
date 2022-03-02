@@ -17,6 +17,11 @@ Mendoza Reyes, Juan Diego   -   juandiem@ucm.es <br>
 ## Resumen
 
 La práctica consiste en implementar un prototipo de una simulación del mito del **Minotauro y Teseo**, los cuales son entidades que ya están, consistente en la aventura del héroe buscando la salida del laberinto, mientras el minotauro, una criatura mitológica mitad toro mitad persona, le busca  para acabar con su vida. Teseo debe encontrar la salida siguiendo el **Hilo de Ariadna**, que ignora la magia del laberinto. <br>
+
+![Minotauro](https://github.com/IAV22-G02/P2/blob/main/Minotauro.png "Modelo del Minotauro")
+
+![Teseo](https://github.com/IAV22-G02/P2/blob/main/Teseo.png "Modelo de Teseo")
+<br>
 La práctica consta de un laberinto divido por casillas en el que se encontraran: Teseo (el jugador) y el minotauro (controlado por **IA**).<br>
 El **laberinto** se genera mediante la lectura de un documento de texto con un tamaño configurable y con más de una salida, las salidas tendrán distinta longitud desde el punto de salida de Teseo y tendrán distinta anchura. <br>
 El minotauro empieza en el centro del laberinto y merodea por los caminos del mismo hasta que ve a Teseo, en este momento empieza a **perseguirlo**, hasta dar con él. <br>
