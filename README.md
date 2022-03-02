@@ -1,53 +1,59 @@
-# Documentación Práctica 1
+# Documentación Práctica 2
 ___________________________________________________________________________
 
+<!---
+ # Video de pruebas [aquí](https://youtu.be/ztK_XIu5nJk)
+-->
 
-# Video de pruebas [aquí](https://youtu.be/ztK_XIu5nJk)
+# Autores
 
-## Autores
-
-##### Grupo 02
-López Benítez, Ángel   -   angelo06@ucm.es
-Rave Robayo, Jose Daniel   -   jrave@ucm.es
-Prado Echegaray, Iván   -   ivprado@ucm.es
-Mendoza Reyes, Juan Diego   -   juandiem@ucm.es
+## Grupo 02
+López Benítez, Ángel   -   angelo06@ucm.es <br>
+Rave Robayo, Jose Daniel   -   jrave@ucm.es <br>
+Prado Echegaray, Iván   -   ivprado@ucm.es <br>
+Mendoza Reyes, Juan Diego   -   juandiem@ucm.es <br>
 
 
 ## Resumen
 
-La práctica consiste en implementar un prototipo de una simulación del mito del minotauro y perseo, consistente en la aventura del héroe buscando la salida del laberinto, mientras el minotauro, una criatura mitológica mitad toro mitad persona, le busca 
-para acabar con su vida, perseo debe encontrar la salida siguiendo el hilo de Ariadna, que ignora la magia del laberinto.
-La práctica consta de un laberinto divido por caillas en el que se encontraran: perseo(el jugador) y el minotauro.
-El laberinto se genera mediante la lectura de un documento de texto con un tamaño configurable y con más de una salida, las salidas tendrán distinta longitud desde el punnto de salida de perseo y tendrán distinta anchura.
-El minotauro empieza en el centro del laberinto y merodea por los caminos del mismo hasta que ve a perseo, en este momento empieza a perseguirlo.
-Perseo es nuestro personaje controlable, el cual se mueve con las flechas del teclado, si presionamos espacio, este control se detiene y perseo empieza a seguir el hilo de Ariadna por su cuenta; Perseo no puede camina a través de la casilla donde está el
-minotauro.
-El hilo de Ariadna se muestra cuando pulsamos el espacio, dibujándose una línea blanca por el camino que sigue perseo, y resaltando las casillas en blanco, el hilo va por el camino más eficiente.
+La práctica consiste en implementar un prototipo de una simulación del mito del **Minotauro y Teseo**, los cuales son entidades que ya están, consistente en la aventura del héroe buscando la salida del laberinto, mientras el minotauro, una criatura mitológica mitad toro mitad persona, le busca  para acabar con su vida. Teseo debe encontrar la salida siguiendo el **Hilo de Ariadna**, que ignora la magia del laberinto. <br>
+La práctica consta de un laberinto divido por casillas en el que se encontraran: Teseo (el jugador) y el minotauro (controlado por **IA**).<br>
+El **laberinto** se genera mediante la lectura de un documento de texto con un tamaño configurable y con más de una salida, las salidas tendrán distinta longitud desde el punto de salida de Teseo y tendrán distinta anchura. <br>
+El minotauro empieza en el centro del laberinto y merodea por los caminos del mismo hasta que ve a Teseo, en este momento empieza a **perseguirlo**, hasta dar con él. <br>
+Teseo es nuestro personaje controlable, el cual se mueve con las flechas del teclado, si presionamos espacio, este control se detiene y Teseo empieza a seguir el hilo de Ariadna por su cuenta; Teseo no puede caminar a través de la casilla donde está el minotauro ya que tienen un coste/riesgo mucho mayor en comparación a los otras casillas lejos del minotauro. <br>
+El hilo de Ariadna se muestra cuando **pulsamos el espacio**, dibujándose una línea blanca por el camino que sigue Teseo, y resaltando las casillas en blanco. El hilo va por el camino más corto y con menos riesgos. <br>
 
-## Descripción Punto de Partida
+# Descripción Punto de Partida
 
-# [Commit](https://github.com/IAV22-G02/P2/commit/ed26cda0429e6a28e262607879a93b947d5fc54e) de Punto de Partida 
+## [Commit](https://github.com/IAV22-G02/P2/commit/ed26cda0429e6a28e262607879a93b947d5fc54e) de Punto de Partida 
 
-La escena incial contiene un grid con un mapa de prueba, modelos para el minotauro y teseo, materiales y prefabs para los obstaculos además de los siguientes scripts:
+La escena incial contiene un **Grid** con un mapa de prueba (éste se puede generar **proceduralmente**), modelos para el minotauro y teseo, materiales y prefabs para los obstaculos además de los siguientes scripts:
 
-BinaryHip: Una pila de información útil para ordenar datos e implementar colas de prioridad.
-Edge: Conexión entre nodos, útil para calcular el coste de atravesar una casilla.
-Graph: Clase abstracta para implementar grafos.
-GraphGrid: Clase que genera el mapa a partir de un archivo .map
-TesterGrahh: Clase que contiene distintos algoritmos para encontrar caminos en grafos.
-Vertex: Cada uno de los vértices del grafo
+**BinaryHip**: Una pila de información útil para ordenar datos e implementar colas de prioridad.<br>
+**Edge**: Conexión entre nodos, útil para calcular el coste de atravesar una casilla.<br>
+**Graph**: Clase abstracta para implementar grafos.<br>
+**GraphGrid**: Clase que genera el mapa a partir de un archivo .map.<br>
+**TesterGrahh**: Clase que contiene distintos algoritmos para encontrar caminos en grafos. <br>
+**Vertex**: Cada uno de los vértices del grafo. <br>
 
-## Descripción de la solución
+## Descripción de la Solución
 
-La solución consta de la implementación de 3 nuevos componentes:
+La solución consta de la implementación de 3 nuevos componentes, cuyo pseudocódigo está más abajo:
 + Componente MapGenerator, que se encarga de la generación prodecdural de laberintos.
-+ El componente FindPath, que usaremos para encontrar el camino más corto mediante el hilo de Ariadna.
-+ El componente FollowPath, que llevará a Teseo a seguir el camino que le indique el hilo de Ariadna.
++ El componente PathFinder, que usaremos para encontrar el camino más corto mediante el hilo de Ariadna.
++ El componente FollowPath, que llevará a Teseo a seguir el camino que le indique el hilo de Ariadna. El pseudocódigo de éste componente no está ya que solo consiste en seguir una secuencia de posiciones.
 
 ### Opcionales
 
 La solución también consta de funcionalidades opcionlaes tales como:
-+ Generación procedimental de laberintos
++ Generación procedimental de laberintos (realizado)
++ Modifica al Minotauro para que patrulle siguiendo un camino con un patrón concreto, y
+de paso permite tener un número variable de monstruos en el laberinto.
++ Añade zonas de baldosas con distinto coste al laberinto, como agua, barro, pendientes…
++ Da la opción de poder cambiar la heurística utilizada en el algoritmo A*.
++ Permite añadir más salidas al laberinto y modifica a Teseo para que, si hay varias
+salidas, salga por la más cercana, utilizando para ello el algoritmo de Dijkstra.
+
 
 El pseudocódigo de dichos componentes:
 
@@ -303,7 +309,7 @@ class KinematicSeek:
  return result
 ```
 #Estructura de Clases
-![text](https://github.com/IAV22-G02/P1/blob/main/UML_Hamelin.png)
+![text](https://github.com/IAV22-G02/P2/blob/main/UMLMaze.png)
 
 # Referencias Usadas:
 + AI for GAMES Third Edition, Ian Millintong
