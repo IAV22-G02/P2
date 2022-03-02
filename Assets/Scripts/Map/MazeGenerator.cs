@@ -90,6 +90,7 @@ namespace Maze {
 
             string s = "S..";
             string f = "F";
+            string Minotaur = "M";
             start = false;
             finish = false;
 
