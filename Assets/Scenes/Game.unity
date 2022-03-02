@@ -715,7 +715,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 2126994648}
   smoothSpeed: 0.125
-  offset: {x: -8, y: 6, z: 0}
+  cameraOffset: {x: -2, y: 12, z: 0}
+  angularOffset: {x: -6, y: 0, z: 0}
 --- !u!20 &1215951692
 Camera:
   m_ObjectHideFlags: 0
