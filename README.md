@@ -18,15 +18,27 @@ Mendoza Reyes, Juan Diego   -   juandiem@ucm.es <br>
 
 La práctica consiste en implementar un prototipo de una simulación del mito del **Minotauro y Teseo**, los cuales son entidades que ya están, consistente en la aventura del héroe buscando la salida del laberinto, mientras el minotauro, una criatura mitológica mitad toro mitad persona, le busca  para acabar con su vida. Teseo debe encontrar la salida siguiendo el **Hilo de Ariadna**, que ignora la magia del laberinto. <br>
 
-![Minotauro](https://github.com/IAV22-G02/P2/blob/main/Minotauro.png "Modelo del Minotauro")
-
-![Teseo](https://github.com/IAV22-G02/P2/blob/main/Teseo.png "Modelo de Teseo")
 <br>
 La práctica consta de un laberinto divido por casillas en el que se encontraran: Teseo (el jugador) y el minotauro (controlado por **IA**).<br>
 El **laberinto** se genera mediante la lectura de un documento de texto con un tamaño configurable y con más de una salida, las salidas tendrán distinta longitud desde el punto de salida de Teseo y tendrán distinta anchura. <br>
 El minotauro empieza en el centro del laberinto y merodea por los caminos del mismo hasta que ve a Teseo, en este momento empieza a **perseguirlo**, hasta dar con él. <br>
 Teseo es nuestro personaje controlable, el cual se mueve con las flechas del teclado, si presionamos espacio, este control se detiene y Teseo empieza a seguir el hilo de Ariadna por su cuenta; Teseo no puede caminar a través de la casilla donde está el minotauro ya que tienen un coste/riesgo mucho mayor en comparación a los otras casillas lejos del minotauro. <br>
 El hilo de Ariadna se muestra cuando **pulsamos el espacio**, dibujándose una línea blanca por el camino que sigue Teseo, y resaltando las casillas en blanco. El hilo va por el camino más corto y con menos riesgos. <br>
+
+Las funcionalidades minimas que se piden son: 
+
++ **A.** Mostrar el entorno virtual (el laberinto del Minotauro) de tamaño configurable, con un esquema de división de grafo de baldosas que incluirá una baldosa de salida, donde se ubica inicialmente el avatar (Teseo). Debe haber varios caminos alternativos para llegar a la salida, algunos más anchos y otros muy estrechos (pasillos de una única baldosa de anchura). El avatar estará controlado por el jugador mediante los cursores [0,5 ptos.]. <br><br>
++ **B.** Situar en el centro del laberinto al agente inteligente que representa al enemigo (el Minotauro), quien realizará un merodeo constante, pasando a perseguir al 	avatar si se lo encuentra en su línea de visión [0,5 ptos.].<br><br>
++ **C.** Representar el hilo de Ariadna (camino más corto a la baldosa de salida) pintado con una línea blanca y destacando las baldosas también con círculos blancos, a la vez que se activa la navegación automática de Teseo hasta la salida, todo ello mientras se mantenga
+pulsada la barra espaciadora [1 pto.].<br><br>
++ **D.** Elegir (activando o desactivando la funcionalidad con la tecla S) si suavizar o no el camino generado por el algoritmo anterior, generalmente reduciendo las baldosas que forman parte del camino suavizado a la salida [1 pto.].<br><br>
++ **E.** Desarrollar el movimiento completo de Teseo, que mientras tenemos pulsada la barra espaciadora, va moviéndose automáticamente siguiendo el hilo hacia la baldosa de salida. Esto hace desaparecer la parte del hilo que ya se ha recorrido, hilo que desaparece al completo en cuanto se suelta la barra espaciadora y se vuelve al movimiento manual [1 pto.].<br><br>
+
+
+
+Modelo de Minotauro             |  Modelo de Teseo
+:-------------------------:|:-------------------------:
+<img src="https://github.com/IAV22-G02/P2/blob/main/Minotauro.png" alt="drawing" width="200"/>  |  <img src="https://github.com/IAV22-G02/P2/blob/main/Teseo.png" alt="drawing" width="200"/>
 
 # Descripción Punto de Partida
 
@@ -41,6 +53,11 @@ La escena incial contiene un **Grid** con un mapa de prueba (éste se puede gene
 **TesterGrahh**: Clase que contiene distintos algoritmos para encontrar caminos en grafos. <br>
 **Vertex**: Cada uno de los vértices del grafo. <br>
 
+# Estructura de Clases
+![text](https://github.com/IAV22-G02/P2/blob/main/UMLMaze.png)
+
+<br>
+
 ## Descripción de la Solución
 
 La solución consta de la implementación de 3 nuevos componentes, cuyo pseudocódigo está más abajo:
@@ -48,16 +65,13 @@ La solución consta de la implementación de 3 nuevos componentes, cuyo pseudoc�
 + El componente PathFinder, que usaremos para encontrar el camino más corto mediante el hilo de Ariadna.
 + El componente FollowPath, que llevará a Teseo a seguir el camino que le indique el hilo de Ariadna. El pseudocódigo de éste componente no está ya que solo consiste en seguir una secuencia de posiciones.
 
-Además usaremos los componente implmentados en la práctica 1, que se puden ver en este enlace(https://github.com/IAV22-G02/P1)
+Además usaremos los componente implmentados en la práctica 1, que se puden ver en este enlace()
+Además vamos reutilizar gran parte de la estructura de movimiento de la Practica 1. Sobretodo los componentes para el movimiento de Teseo. Por otro lado, cambiaremos un poco el comportamiento de Merodeo del Minotauro para que se mueva como si estuviera apatrullando el mapa. Mas abajo se puede ver el código de lo que se tiene en mente. La explicacion de la estructura se puede ver [aquí](https://github.com/IAV22-G02/P1)
 
 ### Opcionales
 
 La solución también consta de funcionalidades opcionlaes tales como:
 + Generación procedimental de laberintos (realizado)
-+ Modifica al Minotauro para que patrulle siguiendo un camino con un patrón concreto, y
-de paso permite tener un número variable de monstruos en el laberinto.
-+ Añade zonas de baldosas con distinto coste al laberinto, como agua, barro, pendientes…
-+ Da la opción de poder cambiar la heurística utilizada en el algoritmo A*.
 + Permite añadir más salidas al laberinto y modifica a Teseo para que, si hay varias
 salidas, salga por la más cercana, utilizando para ello el algoritmo de Dijkstra.
 
@@ -139,140 +153,147 @@ class Location:
 ```python
 
  function pathfindAStar(graph: Graph,
- start: Node,
- end: Node,
- heuristic: Heuristic
- ) -> Connection[]:
- # This structure is used to keep track of the
- # information we need for each node.
- class NodeRecord:
- node: Node
- connection: Connection
- costSoFar: float
- estimatedTotalCost: float
- 
- # Initialize the record for the start node.
- startRecord = new NodeRecord()
- startRecord.node = start
- startRecord.connection = null
- startRecord.costSoFar = 0
- startRecord.estimatedTotalCost = heuristic.estimate(start)
- 
- # Initialize the open and closed lists.
- open = new PathfindingList()
- 
- open += startRecord
- closed = new PathfindingList()
- 
- # Iterate through processing each node.
- while length(open) > 0:
- # Find the smallest element in the open list (using the
- # estimatedTotalCost).
- current = open.smallestElement()
- 
- # If it is the goal node, then terminate.
- if current.node == goal:
- break
- 
- # Otherwise get its outgoing connections.
- connections = graph.getConnections(current)
- 
- # Loop through each connection in turn.
- for connection in connections:
- # Get the cost estimate for the end node.
- endNode = connection.getToNode()
- endNodeCost = current.costSoFar + connection.getCost()
- 
- # If the node is closed we may have to skip, or remove it
- # from the closed list.
- if closed.contains(endNode):
- # Here we find the record in the closed list
- # corresponding to the endNode.
- endNodeRecord = closed.find(endNode)
- 
- # If we didn’t find a shorter route, skip.
- if endNodeRecord.costSoFar <= endNodeCost:
- continue
- 
- # Otherwise remove it from the closed list.
- closed -= endNodeRecord
- 
- # We can use the node’s old cost values to calculate
- # its heuristic without calling the possibly expensive
- # heuristic function.
- endNodeHeuristic = endNodeRecord.estimatedTotalCost -
- endNodeRecord.costSoFar
- 
- # Skip if the node is open and we’ve not found a better
- # route.
- else if open.contains(endNode):
- # Here we find the record in the open list
- # corresponding to the endNode.
- 
- endNodeRecord = open.find(endNode)
- 
-  # If our route is no better, then skip.
-  if endNodeRecord.costSoFar <= endNodeCost:
-  continue
- 
-  # Again, we can calculate its heuristic.
-  endNodeHeuristic = endNodeRecord.cost -
-  endNodeRecord.costSoFar
- 
-  # Otherwise we know we’ve got an unvisited node, so make a
-  # record for it.
-  else:
-  endNodeRecord = new NodeRecord()
-  endNodeRecord.node = endNode
- 
-  # We’ll need to calculate the heuristic value using
-  # the function, since we don’t have an existing record
-  # to use.
-  endNodeHeuristic = heuristic.estimate(endNode)
- 
-  # We’re here if we need to update the node. Update the
-  # cost, estimate and connection.
-  endNodeRecord.cost = endNodeCost
-  endNodeRecord.connection = connection
-  endNodeRecord.estimatedTotalCost = endNodeCost +
- endNodeHeuristic
- 
- # And add it to the open list.
- if not open.contains(endNode):
- open += endNodeRecord
- 
- # We’ve finished looking at the connections for the current
- # node, so add it to the closed list and remove it from the
- # open list.
- open -= current
- closed += current
- 
- # We’re here if we’ve either found the goal, or if we’ve no more
- # nodes to search, find which.
- if current.node != goal:
- # We’ve run out of nodes without finding the goal, so there’s
- # no solution.
- return null
- 
- else:
- # Compile the list of connections in the path.
- 
- path = []
- 
- # Work back along the path, accumulating connections.
- while current.node != start:
- path += current.connection
- current = current.connection.getFromNode()
- 
- # Reverse the path, and return it.
- return reverse(path)
+	 start: Node,
+	 end: Node,
+	 heuristic: Heuristic
+	 ) -> Connection[]:
+	 # This structure is used to keep track of the
+	 # information we need for each node.
+	 class NodeRecord:
+	 node: Node
+	 connection: Connection
+	 costSoFar: float
+	 estimatedTotalCost: float
+
+	 # Initialize the record for the start node.
+	 startRecord = new NodeRecord()
+	 startRecord.node = start
+	 startRecord.connection = null
+	 startRecord.costSoFar = 0
+	 startRecord.estimatedTotalCost = heuristic.estimate(start)
+
+	 # Initialize the open and closed lists.
+	 open = new PathfindingList()
+
+	 open += startRecord
+	 closed = new PathfindingList()
+
+	 # Iterate through processing each node.
+	 while length(open) > 0:
+		 # Find the smallest element in the open list (using the
+		 # estimatedTotalCost).
+		 current = open.smallestElement()
+
+		 # If it is the goal node, then terminate.
+		 if current.node == goal:
+		 	break
+
+		 # Otherwise get its outgoing connections.
+		 connections = graph.getConnections(current)
+
+		 # Loop through each connection in turn.
+		 for connection in connections:
+			 # Get the cost estimate for the end node.
+			 endNode = connection.getToNode()
+			 endNodeCost = current.costSoFar + connection.getCost()
+
+		 # If the node is closed we may have to skip, or remove it
+		 # from the closed list.
+		 if closed.contains(endNode):
+			 # Here we find the record in the closed list
+			 # corresponding to the endNode.
+			 endNodeRecord = closed.find(endNode)
+
+		 # If we didn’t find a shorter route, skip.
+		 if endNodeRecord.costSoFar <= endNodeCost:
+		 	continue
+
+			 # Otherwise remove it from the closed list.
+			 closed -= endNodeRecord
+
+			 # We can use the node’s old cost values to calculate
+			 # its heuristic without calling the possibly expensive
+			 # heuristic function.
+			 endNodeHeuristic = endNodeRecord.estimatedTotalCost -
+			 endNodeRecord.costSoFar
+
+			 # Skip if the node is open and we’ve not found a better
+			 # route.
+		 else if open.contains(endNode):
+			 # Here we find the record in the open list
+			 # corresponding to the endNode.
+
+		 	endNodeRecord = open.find(endNode)
+
+		  # If our route is no better, then skip.
+		  if endNodeRecord.costSoFar <= endNodeCost:
+		  	continue
+
+			  # Again, we can calculate its heuristic.
+			  endNodeHeuristic = endNodeRecord.cost -
+			  endNodeRecord.costSoFar
+
+			  # Otherwise we know we’ve got an unvisited node, so make a
+			  # record for it.
+		  else:
+			  endNodeRecord = new NodeRecord()
+			  endNodeRecord.node = endNode
+
+			  # We’ll need to calculate the heuristic value using
+			  # the function, since we don’t have an existing record
+			  # to use.
+			  endNodeHeuristic = heuristic.estimate(endNode)
+
+			  # We’re here if we need to update the node. Update the
+			  # cost, estimate and connection.
+			  endNodeRecord.cost = endNodeCost
+			  endNodeRecord.connection = connection
+			  endNodeRecord.estimatedTotalCost = endNodeCost +
+			 endNodeHeuristic
+
+		 # And add it to the open list.
+		 if not open.contains(endNode):
+			 open += endNodeRecord
+
+		 # We’ve finished looking at the connections for the current
+		 # node, so add it to the closed list and remove it from the
+		 # open list.
+		 open -= current
+		 closed += current
+
+	 # We’re here if we’ve either found the goal, or if we’ve no more
+	 # nodes to search, find which.
+	 if current.node != goal:
+	 # We’ve run out of nodes without finding the goal, so there’s
+	 # no solution.
+	 return null
+
+	 else:
+	 # Compile the list of connections in the path.
+
+	 path = []
+
+	 # Work back along the path, accumulating connections.
+	 while current.node != start:
+	 path += current.connection
+	 current = current.connection.getFromNode()
+
+	 # Reverse the path, and return it.
+	 return reverse(path)
 
 
 ```
 
-### Wander (Minotauro)
+### Wander 2 (Ours) (Minotauro)
 ```python
   # Is intersection uses navigation instead of movement
+  function IsIntersection(position)-> bool:
+  	coord : vector2
+	coord = posToGrid(position)
+	
+	return haveNeighboursIntersection(coord.x, coord.y)
+  
+  
 class KinematicWander :
   character: Static
   maxSpeed: float
@@ -282,9 +303,9 @@ class KinematicWander :
   maxRotation: float
  
   function getSteering() -> KinematicSteeringOutput:
-   result = new KinematicSteeringOutput()
-	
-  newDir: vector2 
+	result = new KinematicSteeringOutput()
+
+	newDir: vector2 
 	if(isIntersection(position) || randomBinomial(0, 10) < 3)
 		toDir = randomDirection(position)
 
@@ -292,8 +313,8 @@ class KinematicWander :
 
 		# Get velocity from the vector form of the orientation.
 		result.velocity = maxSpeed * newDir
-		
-   return newDir;
+
+	return newDir;
 ```
 
 ## Seek(Minotauro)
@@ -305,19 +326,18 @@ class KinematicSeek:
  maxSpeed: float
 
  function getSteering() -> KinematicSteeringOutput:
- result = new KinematicSteeringOutput()
- # Get the direction to the target.
- result.velocity = theseus.position - character.position
+	 result = new KinematicSteeringOutput()
+	 # Get the direction to the target.
+	 result.velocity = theseus.position - character.position
 
- # The velocity is along this direction, at full speed.
- result.velocity.normalize()
- result.velocity *= maxSpeed
+	 # The velocity is along this direction, at full speed.
+	 result.velocity.normalize()
+	 result.velocity *= maxSpeed
 
- result.rotation = 0
- return result
+	 result.rotation = 0
+	 return result
 ```
-#Estructura de Clases
-![text](https://github.com/IAV22-G02/P2/blob/main/UMLMaze.png)
+
 
 # Referencias Usadas:
 + AI for GAMES Third Edition, Ian Millintong
