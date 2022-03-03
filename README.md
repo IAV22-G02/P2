@@ -48,6 +48,8 @@ La solución consta de la implementación de 3 nuevos componentes, cuyo pseudoc�
 + El componente PathFinder, que usaremos para encontrar el camino más corto mediante el hilo de Ariadna.
 + El componente FollowPath, que llevará a Teseo a seguir el camino que le indique el hilo de Ariadna. El pseudocódigo de éste componente no está ya que solo consiste en seguir una secuencia de posiciones.
 
+Además usaremos los componente implmentados en la práctica 1, que se puden ver en este enlace(https://github.com/IAV22-G02/P1)
+
 ### Opcionales
 
 La solución también consta de funcionalidades opcionlaes tales como:
