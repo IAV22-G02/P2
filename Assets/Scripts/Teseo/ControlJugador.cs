@@ -55,8 +55,8 @@ namespace UCM.IAV.Movimiento
         {
 
             Direccion direccion = new Direccion();
-            direccion.lineal.x = Input.GetAxis("Horizontal");
-            direccion.lineal.z = Input.GetAxis("Vertical");
+            direccion.lineal.x = Input.GetAxis("Vertical");
+            direccion.lineal.z = Input.GetAxis("Horizontal") * -1;
             direccion.lineal.Normalize();
             direccion.lineal *= agente.aceleracionMax;
 
