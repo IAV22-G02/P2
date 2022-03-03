@@ -272,6 +272,7 @@ class Location:
 
 ### Wander (Minotauro)
 ```python
+  # Is intersection uses navigation instead of movement
 class KinematicWander :
   character: Static
   maxSpeed: float
@@ -283,7 +284,7 @@ class KinematicWander :
   function getSteering() -> KinematicSteeringOutput:
    result = new KinematicSteeringOutput()
 	
-  newDir: vector2
+  newDir: vector2 
 	if(isIntersection(position) || randomBinomial(0, 10) < 3)
 		toDir = randomDirection(position)
 
