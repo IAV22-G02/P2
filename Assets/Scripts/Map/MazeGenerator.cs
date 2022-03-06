@@ -115,9 +115,7 @@ namespace Maze {
                 file.WriteLine(sbTop + "T");
                 Console.WriteLine(sbTop + "T");
 
-                if(y > 0 && y < _height && _rng.Next(0, 2) == 1 && !finish && sbMid[sbMid.Length - 1] != 'T'){
-                    finish = true;
-
+                if(y > 0 && y < _height && !finish && sbMid[sbMid.Length - 1] != 'T' && _rng.Next(0, 2) == 1){
                     if(_rng.Next(0,2) == 1){
                         file.WriteLine(sbMid + f);
                         Console.WriteLine(sbMid + f);
@@ -132,6 +130,8 @@ namespace Maze {
                         file.WriteLine(sbMid + f);
                         Console.WriteLine(sbMid + f);
                     }
+
+                    finish = true;
                 }
                 else{
                     file.WriteLine(sbMid + "T");

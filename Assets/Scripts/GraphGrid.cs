@@ -89,6 +89,11 @@ namespace UCM.IAV.Navegacion
                     mapVertices = new bool[numRows, numCols];
 
 
+                    //Positionate Minotaur
+                    int centerWidth = numCols / 2;
+                    int centerHeight = numRows / 2;
+                    bool minotaur = false;
+
                     for (i = 0; i < numRows; i++)
                     {
                         line = strmRdr.ReadLine();
@@ -114,6 +119,25 @@ namespace UCM.IAV.Navegacion
                                     vertexObjs[id] = Instantiate(finishObstaclePrefab, position, Quaternion.identity) as GameObject;
                                 else vertexObjs[id] = Instantiate(obstaclePrefab, position, Quaternion.identity) as GameObject;
                             }
+
+                            if(!minotaur && j == centerWidth && (i == centerHeight || i == centerHeight + 1) ){
+                                if (line[j] == '.'){
+                                    Instantiate(monster, position, Quaternion.identity);
+                                    minotaur = true;
+                                }
+                                else{
+                                    int limit = 3;
+                                    int k = 1; 
+                                    while (!minotaur && k < limit){
+                                        if (line[j + k] == '.' || line[j - k] == '.') {
+                                            Instantiate(monster, position, Quaternion.identity);
+                                            minotaur = true;
+                                        }
+                                        k++;
+                                    }
+                                }
+                            }
+
                             vertexObjs[id].name = vertexObjs[id].name.Replace("(Clone)", id.ToString());
                             Vertex v = vertexObjs[id].AddComponent<Vertex>();
                             v.id = id;
