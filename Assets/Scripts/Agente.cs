@@ -108,8 +108,7 @@ namespace UCM.IAV.Movimiento {
         /// En cada tick fijo, si hay movimiento din·mico, uso el simulador f˙êico aplicando las fuerzas que corresponda para moverlo.
         /// Un cuerpo r˙Ñido se puede mover con movePosition, cambiando la velocity o aplicando fuerzas, que es lo habitual y que permite respetar otras fuerzas que estÈn actuando sobre Èl a la vez.
         /// </summary>
-        public virtual void FixedUpdate()
-        {
+        public virtual void FixedUpdate(){
             if (cuerpoRigido == null)
                 return; // El movimiento serÅEcinem·tico, fotograma a fotograma con Update
 
@@ -120,35 +119,21 @@ namespace UCM.IAV.Movimiento {
             // La opciÛn por defecto ser˙} usar ForceMode.Force, pero eso implicar˙} que el comportamiento de direcciÛn tuviese en cuenta la masa a la hora de calcular la aceleraciÛn que se pide
             cuerpoRigido.AddForce(direccion.lineal, ForceMode.Acceleration);
 
-            // Limitamos la aceleraciÛn angular al m·ximo que acepta este agente (aunque normalmente vendrÅEya limitada)
-            //if (direccion.angular > aceleracionAngularMax)
-            //    direccion.angular = aceleracionAngularMax;
-
             // Rotamos el objeto siempre sobre su eje Y (hacia arriba), asumiendo que el agente estÅEsobre un plano y quiere mirar a un lado o a otro
             // La opciÛn por defecto ser˙} usar ForceMode.Force, pero eso implicar˙} que el comportamiento de direcciÛn tuviese en cuenta la masa a la hora de calcular la aceleraciÛn que se pide
 
-            Vector3 orientationVector = OriToVec(direccion.orientation);
-            cuerpoRigido.rotation = Quaternion.LookRotation(orientationVector, Vector3.up);
+            if(cuerpoRigido.velocity != Vector3.zero){
+                Quaternion toRotate = Quaternion.LookRotation(cuerpoRigido.velocity.normalized, Vector3.up);
+                cuerpoRigido.rotation = Quaternion.RotateTowards(cuerpoRigido.rotation, toRotate, direccion.angular * Time.fixedDeltaTime);
+            }
 
-            /* //El tema de la orientaciÛn, descomentarlo si queremos sobreescribir toda la cuestiÛn de la velocidad angular
-            orientacion += rotacion / Time.deltaTime; // En lugar de * he puesto / para asÅEcalcular la aceleraciÛn, que es lo que debe ir aquÅE
-            // Necesitamos "constreÒir" inteligentemente la orientaciÛn al rango (0, 360)
-            if (orientacion < 0.0f)
-                orientacion += 360.0f;
-            else if (orientacion > 360.0f)
-                orientacion -= 360.0f;
 
-            Vector3 orientationVector = OriToVec(orientacion);
-            cuerpoRigido.rotation = Quaternion.LookRotation(orientationVector, Vector3.up);
-            */
+            //Vector3 orientationVector = OriToVec(direccion.orientation);
+            //cuerpoRigido.rotation = Quaternion.LookRotation(orientationVector, Vector3.up);
 
-            // Aunque tambiÈn se controlen los m·ximos en el LateUpdate, entiendo que conviene tambiÈn hacerlo aquÅE en FixedUpdate, que puede llegar a ejecutarse m·s veces
-
-            // Limito la velocidad lineal al terminar 
             if (cuerpoRigido.velocity.magnitude > velocidadMax)
                 cuerpoRigido.velocity = cuerpoRigido.velocity.normalized * velocidadMax;
 
-            // Limito la velocidad angular al terminar
             if (cuerpoRigido.angularVelocity.magnitude > rotacionMax)
                 cuerpoRigido.angularVelocity = cuerpoRigido.angularVelocity.normalized * rotacionMax;
             if (cuerpoRigido.angularVelocity.magnitude < -rotacionMax)

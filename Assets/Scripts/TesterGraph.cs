@@ -115,10 +115,9 @@ namespace UCM.IAV.Navegacion
             }
             int i;
             Gizmos.color = pathColor;
-            for (i = 0; i < path.Count; i++)
-            {
+            for (i = 0; i < path.Count - 1; i++) {
                 v = path[i];
-                Gizmos.DrawSphere(v.transform.position, pathNodeRadius);
+                Gizmos.DrawLine(v.transform.position, path[i + 1].transform.position);
                 if (smoothPath && i != 0)
                 {
                     Vertex prev = path[i - 1];
@@ -149,8 +148,8 @@ namespace UCM.IAV.Navegacion
             GameObject node = null;
             Ray ray = mainCamera.ScreenPointToRay(screenPosition);
             RaycastHit[] hits = Physics.RaycastAll(ray);
-            foreach (RaycastHit h in hits)
-            {
+            Debug.Log("H");
+            foreach (RaycastHit h in hits) {
                 if (!h.collider.CompareTag(vertexTag) && !h.collider.CompareTag(obstacleTag))
                     continue;
                 node = h.collider.gameObject;

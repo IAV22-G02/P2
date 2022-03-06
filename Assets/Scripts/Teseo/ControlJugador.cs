@@ -18,51 +18,39 @@ namespace UCM.IAV.Movimiento
     /// </summary>
     public class ControlJugador: ComportamientoAgente
     {
-        
-       // AudioSource audio;
 
-        public virtual void Start()
-        {
-            //SensorialManager.instance.setTarget(this.gameObject);   
-            //SensorialManager.instance.getRats().Add(this.gameObject);   
+        // AudioSource audio
+        // ;
+        [SerializeField]
+        float rotationSpeed;
 
+        Rigidbody rb;
+        Animator animC;
+        public virtual void Start(){
+            rb = GetComponent<Rigidbody>();
+            animC = GetComponentInChildren<Animator>();
         }
         public override void Awake(){
             base.Awake();
-            //audio = GetComponent<AudioSource>();
         }
-        public override void Update()
-        {
+        public override void Update(){
             base.Update();
 
-            if (Input.GetKey(KeyCode.Space))
-            {
-                //if (!audio.isPlaying)audio.Play();
-                //SensorialManager.instance.PlayFlauta(true);
-                this.gameObject.GetComponentInChildren<Animator>().enabled = true;
-            }
-            else { 
-                //audio.Pause();
-                //SensorialManager.instance.PlayFlauta(false);
-                this.gameObject.GetComponentInChildren<Animator>().enabled = false;
-            }
+            if(Mathf.Abs(Input.GetAxis("Vertical")) > 0 || Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
+                animC.SetBool("running", true);
+            else
+                animC.SetBool("running", false);
         }
         /// <summary>
         /// Obtiene la dirección
         /// </summary>
         /// <returns></returns>
-        public override Direccion GetDirection()
-        {
-
-            Direccion direccion = new Direccion();
+        public override Direccion GetDirection(){
+            Direccion direccion = new Direccion(rotationSpeed);
             direccion.lineal.x = Input.GetAxis("Vertical");
             direccion.lineal.z = Input.GetAxis("Horizontal") * -1;
             direccion.lineal.Normalize();
             direccion.lineal *= agente.aceleracionMax;
-
-            direccion.orientation = 90.0f;
-            // Podrú}mos meter una rotación automática en la dirección del movimiento, si quisiéramos
-
             return direccion;
         }
     }

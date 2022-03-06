@@ -138,16 +138,14 @@ namespace UCM.IAV.Navegacion
             return new List<Vertex>();
         }
 
-        public List<Vertex> GetPathAstar(GameObject srcO, GameObject dstO, Heuristic h = null)
-        {
+        public List<Vertex> GetPathAstar(GameObject srcO, GameObject dstO, Heuristic h = null) {
             // AQUÍ HAY QUE PONER LA IMPLEMENTACIÓN DEL ALGORITMO A*
             // ...
 
             return new List<Vertex>();
         }
 
-        public List<Vertex> Smooth(List<Vertex> path)
-        {
+        public List<Vertex> Smooth(List<Vertex> path){
             // AQUÍ HAY QUE PONER LA IMPLEMENTACIÓN DEL ALGORITMO DE SUAVIZADO
             // ...
 
