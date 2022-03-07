@@ -25,13 +25,19 @@ namespace UCM.IAV.Navegacion
         BFS, DFS, ASTAR
     }
 
-    
+    public enum AStarHeuristic
+    {
+        Manhattan, Euclideo
+    }
+
+
 
     //
     public class TesterGraph : MonoBehaviour
     {
         public Graph graph;
         public TesterGraphAlgorithm algorithm;
+        public AStarHeuristic heu;
         public bool smoothPath;
         public string vertexTag = "Vertex"; // Etiqueta de un nodo normal
         public string obstacleTag = "Wall"; // Etiqueta de un obstáculo, tipo pared...
@@ -70,8 +76,6 @@ namespace UCM.IAV.Navegacion
             // El destino simplemente poniendo el ratón encima
             dstObj = GetNodeFromScreen(Input.mousePosition);
 
-            Graph.Heuristic function = Heuristic;
-
             // Con la barra espaciadora se activa la búsqueda del camino mínimo
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -84,9 +88,17 @@ namespace UCM.IAV.Navegacion
                 }
                 switch (algorithm)
                 {
-                    case TesterGraphAlgorithm.ASTAR:
-                        path = graph.GetPathAstar(srcObj, dstObj, function); // Se pasa la heurística
+                    case TesterGraphAlgorithm.ASTAR:{
+                        switch (heu){
+                            case AStarHeuristic.Euclideo:
+                                path = graph.GetPathAstar(srcObj, dstObj, graph.EuclidDist); // Se pasa la heurística
+                                break;
+                            case AStarHeuristic.Manhattan:
+                                path = graph.GetPathAstar(srcObj, dstObj, graph.ManhattanDist); // Se pasa la heurística
+                                break;
+                        }
                         break;
+                        }
                     default:
                     case TesterGraphAlgorithm.BFS: 
                         path = graph.GetPathBFS(srcObj, dstObj);
@@ -158,7 +170,6 @@ namespace UCM.IAV.Navegacion
             GameObject node = null;
             Ray ray = mainCamera.ScreenPointToRay(screenPosition);
             RaycastHit[] hits = Physics.RaycastAll(ray);
-            Debug.Log("H");
             foreach (RaycastHit h in hits) {
                 if (!h.collider.CompareTag(vertexTag) && !h.collider.CompareTag(obstacleTag))
                     continue;

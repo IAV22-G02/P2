@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Maze;
+using UCM.IAV.Navegacion;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     MazeGenerator mazeGen;
+
+    Graph graph;
+    GameObject playerInstance;
     // Start is called before the first frame update
-    void Start(){
+    void Awake(){
         if (instance == null){
             instance = this;
             DontDestroyOnLoad(this.gameObject);
@@ -19,12 +23,23 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void SetGraph(Graph gph){
+        this.graph = gph;
     }
+    public Graph GetGraph()
+    {
+        return this.graph;
+    }
+
+    public void SetPlayer(GameObject player)
+    {
+        playerInstance = player;
+    }
+    public GameObject GetPlayer()
+    {
+        return playerInstance;
+    }
+
 
     public void createMap(int width, int height){
         Debug.Log("hola");

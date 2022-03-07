@@ -46,8 +46,11 @@ namespace UCM.IAV.Navegacion
         public List<Vertex> path;
         //public bool isFinished;
 
-        public virtual void Start()
-        {
+        public virtual void Awake() {
+            GameManager.instance.SetGraph(this);            
+        }
+
+        public virtual void Start(){
             Load();
         }
 

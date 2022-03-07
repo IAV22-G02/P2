@@ -23,15 +23,18 @@ namespace UCM.IAV.Movimiento
         // ;
         [SerializeField]
         float rotationSpeed;
-
+        GameManager gM;
         Rigidbody rb;
         Animator animC;
-        public virtual void Start(){
+        public override void Start(){
+            base.Start();
             rb = GetComponent<Rigidbody>();
             animC = GetComponentInChildren<Animator>();
         }
         public override void Awake(){
             base.Awake();
+            gM = GameManager.instance;
+            gM.SetPlayer(this.gameObject);
         }
         public override void Update(){
             base.Update();

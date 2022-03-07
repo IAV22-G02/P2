@@ -56,6 +56,10 @@ namespace UCM.IAV.Movimiento
             asignDirection();
         }
 
+        public virtual void LateUpdate(){
+            asignDirection();
+        }
+
         private void asignDirection(){
             if (agente == null) return;
 
