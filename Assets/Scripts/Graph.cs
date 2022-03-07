@@ -20,6 +20,14 @@ namespace UCM.IAV.Navegacion
     using System.Collections;
     using System.Collections.Generic;
 
+
+    public struct NodeRecord{
+        public GameObject node;
+        public Vertex connection;
+        public float costSoFar;
+        public float estimatedTotalCost;
+    }
+
     /// <summary>
     /// Abstract class for graphs
     /// </summary>
@@ -34,7 +42,6 @@ namespace UCM.IAV.Navegacion
 
         //// this is for informed search like A*
         public delegate float Heuristic(Vertex a, Vertex b);
-
         // Used for getting path in frames
         public List<Vertex> path;
         //public bool isFinished;
@@ -53,9 +60,26 @@ namespace UCM.IAV.Navegacion
             return vertices.Count;
         }
 
-        public virtual Vertex GetNearestVertex(Vector3 position)
-        {
+        public virtual Vertex GetNearestVertex(Vector3 position){
             return null;
+        }
+
+        public virtual Edge[] GetEdges(Vertex v){
+            if (ReferenceEquals(neighbors, null) || neighbors.Count == 0)
+                return new Edge[0];
+            if (v.id < 0 || v.id >= neighbors.Count)
+                return new Edge[0];
+            int numEdges = neighbors[v.id].Count;
+            Edge[] edges = new Edge[numEdges];
+            List<Vertex> vertexList = neighbors[v.id];
+            List<float> costList = costs[v.id];
+            for (int i = 0; i < numEdges; i++)
+            {
+                edges[i] = new Edge();
+                edges[i].cost = costList[i];
+                edges[i].vertex = vertexList[i];
+            }
+            return edges;
         }
 
 
@@ -138,10 +162,67 @@ namespace UCM.IAV.Navegacion
             return new List<Vertex>();
         }
 
-        public List<Vertex> GetPathAstar(GameObject srcO, GameObject dstO, Heuristic h = null) {
+        public List<Vertex> GetPathAstar(GameObject srcObj, GameObject dstObj, Heuristic h = null) {
             // AQUÍ HAY QUE PONER LA IMPLEMENTACIÓN DEL ALGORITMO A*
             // ...
 
+            if(srcObj == null || dstObj == null)
+                return new List<Vertex>();
+            if (ReferenceEquals(h, null))
+                h = EuclidDist;
+            Vertex src = GetNearestVertex(srcObj.transform.position);
+            Vertex dst = GetNearestVertex(dstObj.transform.position);
+            BinaryHeap<Edge> frontier = new BinaryHeap<Edge>();
+            Edge[] edges;
+            Edge node, child;
+            int size = vertices.Count;
+            float[] distValue = new float[size];
+            int[] previous = new int[size];
+            // next steps
+
+            node = new Edge(src, 0);
+            frontier.Add(node);
+            distValue[src.id] = 0;
+            previous[src.id] = src.id;
+
+            for (int i = 0; i < size; i++){
+                if (i == src.id)
+                    continue;
+                distValue[i] = Mathf.Infinity;
+                previous[i] = -1;
+            }
+
+            while (frontier.Count != 0)
+            {
+                node = frontier.Remove();
+                int nodeId = node.vertex.id;
+                if (ReferenceEquals(node.vertex, dst))
+                {
+                    return BuildPath(src.id, node.vertex.id, ref previous);
+                }
+
+                edges = GetEdges(node.vertex);
+
+                foreach (Edge e in edges)
+                {
+                    int eId = e.vertex.id;
+                    if (previous[eId] != -1)
+                        continue;
+                    float cost = distValue[nodeId] + e.cost;
+                    // key point
+                    cost += h(node.vertex, e.vertex);
+                    // next step
+
+                    if (cost < distValue[e.vertex.id])
+                    {
+                        distValue[eId] = cost;
+                        previous[eId] = nodeId;
+                        frontier.Remove(e);
+                        child = new Edge(e.vertex, cost);
+                        frontier.Add(child);
+                    }
+                }
+            }
             return new List<Vertex>();
         }
 

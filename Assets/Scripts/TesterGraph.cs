@@ -25,6 +25,8 @@ namespace UCM.IAV.Navegacion
         BFS, DFS, ASTAR
     }
 
+    
+
     //
     public class TesterGraph : MonoBehaviour
     {
@@ -36,6 +38,12 @@ namespace UCM.IAV.Navegacion
         public Color pathColor;
         [Range(0.1f, 1f)]
         public float pathNodeRadius = .3f;
+
+        public float Heuristic(Vertex a, Vertex b){
+            float estimation = 0f;
+            // your logic here
+            return estimation;
+        }
 
         Camera mainCamera;
         GameObject srcObj;
@@ -62,6 +70,8 @@ namespace UCM.IAV.Navegacion
             // El destino simplemente poniendo el ratón encima
             dstObj = GetNodeFromScreen(Input.mousePosition);
 
+            Graph.Heuristic function = Heuristic;
+
             // Con la barra espaciadora se activa la búsqueda del camino mínimo
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -75,7 +85,7 @@ namespace UCM.IAV.Navegacion
                 switch (algorithm)
                 {
                     case TesterGraphAlgorithm.ASTAR:
-                        path = graph.GetPathAstar(srcObj, dstObj, null); // Se pasa la heurística
+                        path = graph.GetPathAstar(srcObj, dstObj, function); // Se pasa la heurística
                         break;
                     default:
                     case TesterGraphAlgorithm.BFS: 
@@ -115,9 +125,9 @@ namespace UCM.IAV.Navegacion
             }
             int i;
             Gizmos.color = pathColor;
-            for (i = 0; i < path.Count - 1; i++) {
+            for (i = 0; i < path.Count; i++) {
                 v = path[i];
-                Gizmos.DrawLine(v.transform.position, path[i + 1].transform.position);
+                Gizmos.DrawSphere(v.transform.position, pathNodeRadius);
                 if (smoothPath && i != 0)
                 {
                     Vertex prev = path[i - 1];
