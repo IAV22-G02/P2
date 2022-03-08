@@ -17,6 +17,8 @@ namespace UCM.IAV.Movimiento
 
         TesterGraph tstGph;
 
+        bool chasing = false;
+
         public override void Start()
         {
             base.Start();
@@ -39,12 +41,12 @@ namespace UCM.IAV.Movimiento
 
         public override Direccion GetDirection()
         {
-
             Direccion direccion = new Direccion();
             if (!this.enabled) return direccion;
             //Debug.Log("Hola holita vecinito");
             //GET MAIN DIRECTION
             direccion.lineal = PlayerDetection(transform.forward, minotaurSight);
+
 
             // Podríamos meter una rotación automática en la dirección del movimiento, si quisiéramos
             return direccion;
@@ -52,39 +54,51 @@ namespace UCM.IAV.Movimiento
 
         public Vector3 PlayerDetection(Vector3 directionRay, float distance)
         {
-
             Vector3 directionAcc = new Vector3();
-            Vector3 from = transform.position;
 
-            from.y = from.y + 0.3f;
-            RaycastHit hit;
-
-            Debug.DrawRay(from, directionRay * distance, Color.green);
-
-            if (Physics.Raycast(from, directionRay, out hit, distance))
+            if (chasing)
             {
-                // Find the line from the gun to the point that was clicked.
-                Vector3 incomingVec = hit.point - transform.position;
-                // Use the point's normal to calculate the reflection vector.
-                Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
-
-                // Draw lines to show the incoming "beam" and the reflection.
-                Debug.DrawLine(from, hit.point, Color.red);
-                Debug.DrawRay(hit.point, reflectVec, Color.blue);
-                if (hit.collider.gameObject.GetComponent<ControlJugador>() != null)
-                {
-                    Vector3 dir = hit.point + hit.normal * avoidDistance;
-                    directionAcc += dir;
-
-                    transform.LookAt(hit.collider.gameObject.transform);
-
-                    Vertex v = graph.GetNearestVertex(transform.position);
-                    GameObject endMaze = player;
-                    pathToFollow = tstGph.getPathToNodeFrom(v.gameObject, endMaze);
-                }
+                Vertex v = graph.GetNearestVertex(transform.position);
+                pathToFollow = tstGph.getPathToNodeFrom(v.gameObject, player);
             }
             else
+            {
+
+                Vector3 from = transform.position;
+
+                from.y = from.y + 0.3f;
+                RaycastHit hit;
+
                 Debug.DrawRay(from, directionRay * distance, Color.green);
+
+                if (Physics.Raycast(from, directionRay, out hit, distance))
+                {
+                    // Find the line from the gun to the point that was clicked.
+                    Vector3 incomingVec = hit.point - transform.position;
+                    // Use the point's normal to calculate the reflection vector.
+                    Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
+
+                    // Draw lines to show the incoming "beam" and the reflection.
+                    Debug.DrawLine(from, hit.point, Color.red);
+                    Debug.DrawRay(hit.point, reflectVec, Color.blue);
+                    if (hit.collider.gameObject.GetComponent<ControlJugador>() != null)
+                    {
+                        //Vector3 dir = hit.point + hit.normal * avoidDistance;
+                        //directionAcc += dir;
+
+                        transform.LookAt(hit.collider.gameObject.transform);
+
+                        Vertex v = graph.GetNearestVertex(transform.position);
+                        GameObject endMaze = player;
+                        pathToFollow = tstGph.getPathToNodeFrom(v.gameObject, endMaze);
+
+                        chasing = true;
+                    }
+                }
+                else
+                    Debug.DrawRay(from, directionRay * distance, Color.green);
+
+            }
 
             return directionAcc;
         }
