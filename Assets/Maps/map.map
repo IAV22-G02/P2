@@ -3,12 +3,12 @@ height 10
 width 10
 map
 TTTTTTTTTT
-T..T.....T
-T..T.....T
+T.....T..T
+T.....T..T
 S..T..T..T
+T..T..T..F
 T..T..T..T
 T..T..T..T
-T..T..TTTT
-T........F
-T........T
+T..T.....T
+T..T.....T
 TTTTTTTTTT

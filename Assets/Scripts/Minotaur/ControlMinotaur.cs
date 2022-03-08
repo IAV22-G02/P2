@@ -41,15 +41,13 @@ namespace UCM.IAV.Movimiento
             if (!this.enabled) return direccion;
             //Debug.Log("Hola holita vecinito");
             //GET MAIN DIRECTION
-            direccion.lineal = PlayerDetection(transform.forward, minotaurSight);
-
-            direccion.orientation = Vector3.SignedAngle(Vector3.forward, new Vector3(direccion.lineal.x, 0.0f, direccion.lineal.z), Vector3.up);
+            direccion.lineal = PlayerDetection(transform.forward, minotaurSight,ref direccion);
 
             // Podríamos meter una rotación automática en la dirección del movimiento, si quisiéramos
             return direccion;
         }
 
-        public Vector3 PlayerDetection(Vector3 directionRay, float distance)
+        public Vector3 PlayerDetection(Vector3 directionRay, float distance, ref Direccion direct)
         {
 
             Vector3 directionAcc = new Vector3();
@@ -75,7 +73,13 @@ namespace UCM.IAV.Movimiento
 
                     Vector3 dir = hit.point + hit.normal * avoidDistance;
                     directionAcc += dir;
+
+                    transform.LookAt(hit.collider.gameObject.transform);
                 }
+
+                direct.orientation = Vector3.SignedAngle(hit.collider.transform.position, 
+                                                         transform.position,
+                                                         Vector3.up);
             }
             else
                 Debug.DrawRay(from, directionRay * distance, Color.green);
