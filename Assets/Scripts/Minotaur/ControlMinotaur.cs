@@ -48,7 +48,7 @@ namespace UCM.IAV.Movimiento
             direccion.lineal = PlayerDetection(transform.forward, minotaurSight);
 
 
-            // Podríamos meter una rotación automática en la dirección del movimiento, si quisiéramos
+            // Podrú}mos meter una rotación automática en la dirección del movimiento, si quisiéramos
             return direccion;
         }
 

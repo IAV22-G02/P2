@@ -1,100 +1,68 @@
+﻿namespace UCM.IAV.Movimiento {
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UCM.IAV.Navegacion;
 
-namespace UCM.IAV.Movimiento {
     public class Wander : ComportamientoAgente{
-        [Range(0f,360f)]
-        public float angularThreshold;
 
-        float timeToChange = 0.4f;
-        float auxFactor = 0.7f;
-        float timeSinceLastChange;
+        GraphGrid graph;
+        TesterGraph testGraph;
+        GameManager gM;
+
+        float minTimeToChange, maxTimeToChange, timeToChange, timeSinceLastChange;
+
         Direccion direction;
-        bool change;
+        bool objectiveReached;
 
-        public LayerMask layer;
+        GameObject[] mapCells;
+        int target = -1;
 
-        [Range(0, 100)]
-        public float probToChange;
-
-        [SerializeField]
-        float avoidDistance;
-
-        //Distancia de vision del raycast
-        public float lookAhead = 3.0f;
-
-        public override void Start(){
+        public override void Start()
+        {
+            base.Start();
+            gM = GameManager.instance;
+            graph = gM.GetGraph() as GraphGrid;
+            testGraph = gM.GetTesterGraph() as TesterGraph; 
+            objectiveReached = false;
+            minTimeToChange = 2000;
+            maxTimeToChange = minTimeToChange + 2000;
+            timeToChange = Random.Range(minTimeToChange, maxTimeToChange);
             timeSinceLastChange = 0;
-            change = false;
-            direction = new Direccion();
-            //Starts off with random ori
-            direction.orientation = Random.Range(0, 361);
         }
+
+        public override void Update()
+        {
+            base.Update();
+            //Comprobar si ha llegado al destino
+            if (!objectiveReached && mapCells.Length > 0) {
+                objectiveReached = (graph.GetNearestVertex(this.gameObject.transform.position) == graph.GetNearestVertex(mapCells[target].transform.position));
+            }
+        }
+
 
         public override Direccion GetDirection(){
-            //Decidir si sumar o no
-            int changeProb = Random.Range(0, 2000);
-            if(changeProb <= probToChange && !change){
-                change = true;
-                int addProb = Random.Range(0, 11);
-                //Decidir si sumar o restar
-                if (addProb <= 5) auxFactor = auxFactor * -1;
-
-                timeToChange = Random.Range(0.2f, 0.5f);
+            //Decidir si continuar o cambiar
+            if (!objectiveReached || timeToChange >= timeSinceLastChange){
+                //Obtencion de la posicion relativa respecto al tablero
+                //GameObject ori = graph.GetNearestVertex(this.gameObject.transform.position);
+                //Obtencion de las posibles casillas del tablero
+                mapCells = graph.getVertex();
+                //Destino objetivo random
+                int target = Random.Range(0, mapCells.Length);
+                //Asignacion de objetivo
+                testGraph.getPathToNodeFrom(this.gameObject, mapCells[target]);
+                //Tiempo límite para alcanzar el lugar
+                timeToChange = Random.Range(minTimeToChange, maxTimeToChange);
+                //Reset timer y objetivo
                 timeSinceLastChange = 0;
             }
-
-            //Sumar
-            if (change && timeSinceLastChange <= timeToChange){
-                timeSinceLastChange += Time.deltaTime;
-                direction.orientation += auxFactor;
-            }
-            else change = false;
-       
-            //Dar direccion
-            direction.lineal = OriToVec(direction.orientation);
-
-            Vector3 directionRay = transform.forward;
-            direction.lineal += WallAvoidance(directionRay, lookAhead);
-            directionRay = transform.forward + transform.right;
-            direction.lineal += WallAvoidance(directionRay, lookAhead * 0.25f);
-            directionRay = transform.forward + (transform.right*-1);
-            direction.lineal += WallAvoidance(directionRay, lookAhead * 0.25f);
-
-            direction.lineal.Normalize();
-
-            if(agente != null)
-                direction.lineal *= agente.aceleracionMax;
-
-            return direction;
-        }
-
-        public Vector3 WallAvoidance(Vector3 directionRay, float distance) {
-            Vector3 directionAcc = new Vector3();
-            Vector3 from = transform.position;
-
-            from.y = from.y +  0.3f;
-            RaycastHit hit;
-            if (Physics.Raycast(from, directionRay, out hit, distance, layer))
-            {
-                // Find the line from the gun to the point that was clicked.
-                Vector3 incomingVec = hit.point - transform.position;
-                // Use the point's normal to calculate the reflection vector.
-                Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
-
-                // Draw lines to show the incoming "beam" and the reflection.
-                Debug.DrawLine(from, hit.point, Color.red);
-                Debug.DrawRay(hit.point, reflectVec, Color.blue);
-
-                Vector3 dir = hit.point + hit.normal * avoidDistance;
-                timeSinceLastChange = timeToChange;
-                directionAcc += dir;
-            }
             else
-                Debug.DrawRay(from, directionRay * distance, Color.green);
+                timeSinceLastChange += Time.deltaTime;
 
-            return directionAcc;
+            Debug.Log(timeSinceLastChange + "Yepa");
+            return direction;
         }
     }
 }

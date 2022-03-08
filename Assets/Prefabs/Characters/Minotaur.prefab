@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 417592657514028885}
   - component: {fileID: -5969943925394595600}
   - component: {fileID: 3009942697612317641}
+  - component: {fileID: 8327900368382232941}
   m_Layer: 0
   m_Name: Minotaur
   m_TagString: Untagged
@@ -87,6 +88,21 @@ MonoBehaviour:
   velocidad: {x: 0, y: 0, z: 0}
   rotacion: 0
   orientacion: 0
+--- !u!114 &8327900368382232941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920738872596219605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c6f2ac2f325624e916b96472e9758b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  peso: 1
+  prioridad: 1
+  objetivo: {fileID: 0}
 --- !u!1001 &1187404024817514853
 PrefabInstance:
   m_ObjectHideFlags: 0
