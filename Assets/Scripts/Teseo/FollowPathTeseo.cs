@@ -52,14 +52,18 @@ namespace UCM.IAV.Movimiento
 
         // Update is called once per frame
         public override void Update() {
-            if (Input.GetKeyDown(KeyCode.Space)) pathIterator = 0;
+            if (Input.GetKeyDown(KeyCode.Space)){
+                pathIterator = 0;
+                animC.SetBool("running", true);
+            }
 
             if (Input.GetKey(KeyCode.Space)) {
                 following = true;
                 animC.SetBool("running", true);
                 Debug.Log("Calculating Path");
                 Vertex v = graphGrid.GetNearestVertex(transform.position);
-                pathToFollow = tstGph.getPathToNodeFrom(v.gameObject, endMaze);
+                pathToFollow = new List<Vertex>();
+                pathToFollow = tstGph.getPathToNodeFrom(endMaze, v.gameObject);
             }
             else {
                 animC.SetBool("running", false);

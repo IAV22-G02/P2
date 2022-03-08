@@ -1,14 +1,23 @@
 type octile
-height 10
-width 10
+height 19
+width 19
 map
-TTTTTTTTTT
-T.....T..T
-T.....T..T
-S..TTTT..T
-T.....T..F
-T.....T..T
-T..T..T..T
-T..T.....T
-T..T.....T
-TTTTTTTTTT
+TTTTTTTTTTTTTTTTTTT
+T.................T
+T.................T
+TTTT..TTTTTTT..TTTT
+T.....T.....T..T..T
+T.....T.....T..T..T
+S..TTTT..T..TTTT..T
+T........T..T.....F
+T........T..T.....T
+T..TTTTTTT..T..TTTT
+T..T.....T..T.....T
+T..T.....T..T.....T
+T..TTTT..T..TTTT..T
+T........T.....T..T
+T........T.....T..T
+TTTTTTT..TTTT..T..T
+T...........T.....T
+T...........T.....T
+TTTTTTTTTTTTTTTTTTT

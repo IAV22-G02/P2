@@ -49,14 +49,13 @@ namespace UCM.IAV.Movimiento
 
             if (!Input.GetKey(KeyCode.Space))
                 walking = true;
-            else animC.SetBool("running", false);
+            else walking = false;
 
             if (Mathf.Abs(Input.GetAxis("Vertical")) > 0 || Mathf.Abs(Input.GetAxis("Horizontal")) > 0){
                 animC.SetBool("running", true);
             }
-            else
-            {
-                animC.SetBool("running", false);
+            else{
+                if(walking) animC.SetBool("running", false);
             }
         }
 
@@ -72,7 +71,6 @@ namespace UCM.IAV.Movimiento
                 direccion.lineal.z = Input.GetAxis("Horizontal") * -1;
                 direccion.lineal.Normalize();
                 direccion.lineal *= agente.aceleracionMax;
-                
             }
             return direccion;
         }
