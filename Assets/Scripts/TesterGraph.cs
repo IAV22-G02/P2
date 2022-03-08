@@ -44,6 +44,7 @@ namespace UCM.IAV.Navegacion
         public Color pathColor;
         [Range(0.1f, 1f)]
         public float pathNodeRadius = .3f;
+        GameManager gM;
 
         public float Heuristic(Vertex a, Vertex b){
             float estimation = 0f;
@@ -52,64 +53,100 @@ namespace UCM.IAV.Navegacion
         }
 
         Camera mainCamera;
-        GameObject srcObj;
-        GameObject dstObj;
+        GameObject playerPos;
+        GameObject finalMazePos;
         List<Vertex> path; // La variable con el camino calculado
 
         // Despertar inicializando esto
         void Awake()
         {
             mainCamera = Camera.main;
-            srcObj = null;
-            dstObj = null;
+            playerPos = null;
+            finalMazePos = null;
             path = new List<Vertex>();
+        }
+
+        void Start(){
+            gM = GameManager.instance;
+            playerPos = gM.GetPlayer();    
+            //playerPos = graph.;    
         }
 
         // Update is called once per frame
         void Update()
         {
             // El origen se marca haciendo click
-            if (Input.GetMouseButtonDown(0))
-            {
-                srcObj = GetNodeFromScreen(Input.mousePosition);
-            }
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    playerPos = GetNodeFromScreen(Input.mousePosition);
+            //}
             // El destino simplemente poniendo el ratón encima
-            dstObj = GetNodeFromScreen(Input.mousePosition);
+            //finalMazePos = GetNodeFromScreen(Input.mousePosition);
 
             // Con la barra espaciadora se activa la búsqueda del camino mínimo
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                
-                // Si hay ya camino calculado, la muestro en color blanco, y borro la variable con el camino
-                if (path.Count != 0)
-                {
-                    ShowPath(path, Color.white);
-                    path = new List<Vertex>();
-                }
-                switch (algorithm)
-                {
-                    case TesterGraphAlgorithm.ASTAR:{
-                        switch (heu){
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    if (path.Count != 0)
+            //    {
+            //        ShowPath(path, Color.white);
+            //        path = new List<Vertex>();
+            //    }
+            //    switch (algorithm)
+            //    {
+            //        case TesterGraphAlgorithm.ASTAR:
+            //            {
+            //                switch (heu)
+            //                {
+            //                    case AStarHeuristic.Euclideo:
+            //                        path = graph.GetPathAstar(playerPos, finalMazePos, graph.EuclidDist); // Se pasa la heurística
+            //                        break;
+            //                    case AStarHeuristic.Manhattan:
+            //                        path = graph.GetPathAstar(playerPos, finalMazePos, graph.ManhattanDist); // Se pasa la heurística
+            //                        break;
+            //                }
+            //                break;
+            //            }
+            //        default:
+            //        case TesterGraphAlgorithm.BFS:
+            //            path = graph.GetPathBFS(playerPos, finalMazePos);
+            //            break;
+            //        case TesterGraphAlgorithm.DFS:
+            //            path = graph.GetPathDFS(playerPos, finalMazePos);
+            //            break;
+            //    }
+            //    if (smoothPath)
+            //        path = graph.Smooth(path); // Suavizar el camino, una vez calculado
+            //}
+        }
+
+        public List<Vertex> getPathToNodeFrom(GameObject ori, GameObject dest){
+            switch (algorithm){
+                case TesterGraphAlgorithm.ASTAR:
+                    {
+                        switch (heu)
+                        {
                             case AStarHeuristic.Euclideo:
-                                path = graph.GetPathAstar(srcObj, dstObj, graph.EuclidDist); // Se pasa la heurística
+                                path = graph.GetPathAstar(ori, dest, graph.EuclidDist); // Se pasa la heurística
                                 break;
                             case AStarHeuristic.Manhattan:
-                                path = graph.GetPathAstar(srcObj, dstObj, graph.ManhattanDist); // Se pasa la heurística
+                                path = graph.GetPathAstar(ori, dest, graph.ManhattanDist); // Se pasa la heurística
                                 break;
                         }
                         break;
-                        }
-                    default:
-                    case TesterGraphAlgorithm.BFS: 
-                        path = graph.GetPathBFS(srcObj, dstObj);
-                        break;
-                    case TesterGraphAlgorithm.DFS:
-                        path = graph.GetPathDFS(srcObj, dstObj);
-                        break; 
-                }
-                if (smoothPath)
-                    path = graph.Smooth(path); // Suavizar el camino, una vez calculado
+                    }
+                default:
+                case TesterGraphAlgorithm.BFS:
+                    path = graph.GetPathBFS(ori, dest);
+                    break;
+                case TesterGraphAlgorithm.DFS:
+                    path = graph.GetPathDFS(ori, dest);
+                    break;
             }
+            if (smoothPath)
+                path = graph.Smooth(path); // Suavizar el camino, una vez calculado
+
+
+            return path;
         }
 
         // Dibujado de artilugios en el editor
@@ -123,16 +160,16 @@ namespace UCM.IAV.Navegacion
                 return;
 
             Vertex v;
-            if (!ReferenceEquals(srcObj, null))
+            if (!ReferenceEquals(playerPos, null))
             {
                 Gizmos.color = Color.green; // Verde es el nodo inicial
-                v = graph.GetNearestVertex(srcObj.transform.position);
+                v = graph.GetNearestVertex(playerPos.transform.position);
                 Gizmos.DrawSphere(v.transform.position, pathNodeRadius);
             }
-            if (!ReferenceEquals(dstObj, null))
+            if (!ReferenceEquals(finalMazePos, null))
             {
                 Gizmos.color = Color.red; // Rojo es el color del nodo de destino
-                v = graph.GetNearestVertex(dstObj.transform.position);
+                v = graph.GetNearestVertex(finalMazePos.transform.position);
                 Gizmos.DrawSphere(v.transform.position, pathNodeRadius);
             }
             int i;

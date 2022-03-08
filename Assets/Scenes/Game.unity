@@ -136,6 +136,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3278536007031935678, guid: 906597946b2add741aa4b056868d79a7,
         type: 3}
+      propertyPath: tstGph
+      value: 
+      objectReference: {fileID: 478290963}
+    - target: {fileID: 3278536007031935678, guid: 906597946b2add741aa4b056868d79a7,
+        type: 3}
+      propertyPath: graphGrid
+      value: 
+      objectReference: {fileID: 1574568752}
+    - target: {fileID: 3278536007031935678, guid: 906597946b2add741aa4b056868d79a7,
+        type: 3}
       propertyPath: rotationSpeed
       value: 720
       objectReference: {fileID: 0}

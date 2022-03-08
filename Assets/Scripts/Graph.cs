@@ -48,10 +48,11 @@ namespace UCM.IAV.Navegacion
 
         public virtual void Awake() {
             GameManager.instance.SetGraph(this);            
+            Load();
         }
 
         public virtual void Start(){
-            Load();
+        
         }
 
         public virtual void Load() { }

@@ -26,6 +26,9 @@ namespace UCM.IAV.Navegacion
         public GameObject obstaclePrefab;
         public GameObject startObstaclePrefab;
         public GameObject finishObstaclePrefab;
+
+        GameObject endMaze;
+
         public string mapsDir = "Maps"; // Directorio por defecto
         public string mapName = "arena.map"; // Fichero por defecto
         public bool get8Vicinity = false;
@@ -52,12 +55,20 @@ namespace UCM.IAV.Navegacion
             return Math.Max(numRows, numCols) * y + x;
         }
 
+        public ref GameObject[] getVertex(){
+            return ref vertexObjs;
+        }
+
         private Vector2 IdToGrid(int id)
         {
             Vector2 location = Vector2.zero;
             location.y = Mathf.Floor(id / numCols);
             location.x = Mathf.Floor(id % numCols);
             return location;
+        }
+
+        public GameObject getEndMaze(){
+            return endMaze;
         }
 
         private void LoadMap(string filename)
@@ -115,8 +126,10 @@ namespace UCM.IAV.Navegacion
                                     vertexObjs[id] = Instantiate(startObstaclePrefab, position, Quaternion.identity) as GameObject;
                                     if (player != null) player.transform.position = position;
                                 }
-                                else if (line[j] == 'F')
-                                    vertexObjs[id] = Instantiate(finishObstaclePrefab, position, Quaternion.identity) as GameObject;
+                                else if (line[j] == 'F'){
+                                    endMaze = Instantiate(finishObstaclePrefab, position, Quaternion.identity) as GameObject;
+                                    vertexObjs[id] = endMaze;
+                                }
                                 else vertexObjs[id] = Instantiate(obstaclePrefab, position, Quaternion.identity) as GameObject;
                             }
 
