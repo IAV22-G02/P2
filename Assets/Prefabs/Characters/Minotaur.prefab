@@ -61,7 +61,9 @@ MonoBehaviour:
   peso: 1
   prioridad: 1
   objetivo: {fileID: 0}
-  grid_: {fileID: 0}
+  graph: {fileID: 0}
+  avoidDistance: 0
+  minotaurSight: 1000
 --- !u!1001 &1187404024817514853
 PrefabInstance:
   m_ObjectHideFlags: 0

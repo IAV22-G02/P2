@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
 
 
     public void createMap(int width, int height){
-        Debug.Log("hola");
         mazeGen.setSize(width, height);
 
         while (!mazeGen.getStart() || !mazeGen.getFinish()){
