@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     MazeGenerator mazeGen;
 
     Graph graph;
+    TesterGraph testGraph;
     GameObject playerInstance;
     // Start is called before the first frame update
     void Awake(){
@@ -29,6 +30,14 @@ public class GameManager : MonoBehaviour
     public Graph GetGraph()
     {
         return this.graph;
+    }
+    public void SetTesterGraph(TesterGraph gph)
+    {
+        this.testGraph= gph;
+    }
+    public TesterGraph GetTesterGraph()
+    {
+        return this.testGraph;
     }
 
     public void SetPlayer(GameObject player)

@@ -63,11 +63,12 @@ namespace UCM.IAV.Navegacion
             mainCamera = Camera.main;
             playerPos = null;
             finalMazePos = null;
-            path = new List<Vertex>();
+
+            gM = GameManager.instance;
+            gM.SetTesterGraph(this);
         }
 
         void Start(){
-            gM = GameManager.instance;
             playerPos = gM.GetPlayer();    
             //playerPos = graph.;    
         }

@@ -15,7 +15,6 @@ namespace UCM.IAV.Movimiento
         public float minotaurSight;
         List<Vertex> pathToFollow;
 
-        [SerializeField]
         TesterGraph tstGph;
 
         public override void Start()
@@ -24,6 +23,7 @@ namespace UCM.IAV.Movimiento
             gM = GameManager.instance;
             player = gM.GetPlayer();
             graph = gM.GetGraph() as GraphGrid;
+            tstGph = gM.GetTesterGraph();
         }
 
         //public override void Awake()
