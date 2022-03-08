@@ -126,11 +126,17 @@ namespace UCM.IAV.Navegacion
                                     vertexObjs[id] = Instantiate(startObstaclePrefab, position, Quaternion.identity) as GameObject;
                                     if (player != null) player.transform.position = position;
                                 }
-                                else if (line[j] == 'F'){
+                                else if (line[j] == 'F')
+                                {
                                     endMaze = Instantiate(finishObstaclePrefab, position, Quaternion.identity) as GameObject;
                                     vertexObjs[id] = endMaze;
                                 }
-                                else vertexObjs[id] = Instantiate(obstaclePrefab, position, Quaternion.identity) as GameObject;
+                                else
+                                {
+                                    position.y += obstaclePrefab.transform.localScale.y / 2;
+                                    vertexObjs[id] = Instantiate(obstaclePrefab, position, obstaclePrefab.transform.rotation) as GameObject;
+                                    position.y = 0;
+                                }                            
                             }
 
                             if(!minotaur && j == centerWidth && (i == centerHeight || i == centerHeight + 1) ){

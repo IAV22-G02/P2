@@ -131,8 +131,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2126994650, guid: 906597946b2add741aa4b056868d79a7, type: 3}
-      propertyPath: rotacionMax
-      value: 720
+      propertyPath: umbralPrioridad
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3278536007031935678, guid: 906597946b2add741aa4b056868d79a7,
         type: 3}
@@ -146,18 +146,28 @@ PrefabInstance:
       objectReference: {fileID: 1574568752}
     - target: {fileID: 3278536007031935678, guid: 906597946b2add741aa4b056868d79a7,
         type: 3}
-      propertyPath: rotationSpeed
-      value: 720
+      propertyPath: prioridad
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 3492200504003381939, guid: 906597946b2add741aa4b056868d79a7,
+    - target: {fileID: 5689122149115241238, guid: 906597946b2add741aa4b056868d79a7,
         type: 3}
-      propertyPath: m_Drag
-      value: 1.34
+      propertyPath: tstGph
+      value: 
+      objectReference: {fileID: 478290963}
+    - target: {fileID: 5689122149115241238, guid: 906597946b2add741aa4b056868d79a7,
+        type: 3}
+      propertyPath: graphGrid
+      value: 
+      objectReference: {fileID: 1574568752}
+    - target: {fileID: 5689122149115241238, guid: 906597946b2add741aa4b056868d79a7,
+        type: 3}
+      propertyPath: prioridad
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3492200504003381939, guid: 906597946b2add741aa4b056868d79a7,
+    - target: {fileID: 5689122149115241238, guid: 906597946b2add741aa4b056868d79a7,
         type: 3}
-      propertyPath: m_Constraints
-      value: 84
+      propertyPath: distanceThreshold
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6765324087469890688, guid: 906597946b2add741aa4b056868d79a7,
         type: 3}
@@ -805,7 +815,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertexPrefab: {fileID: 100000, guid: a0702439d05d5334e885e87aeba2a438, type: 3}
   path: []
-  obstaclePrefab: {fileID: 100000, guid: 403c7d1fcaa50ea4e8acd406751a88fd, type: 3}
+  obstaclePrefab: {fileID: 927942715480971902, guid: 9999a7c5a3593c045bdfc9e3ae6d0e00,
+    type: 3}
   startObstaclePrefab: {fileID: 100000, guid: 80d82a98710d9144b83d4718d6ee1f8c, type: 3}
   finishObstaclePrefab: {fileID: 100000, guid: 4ff7ad6249658e54a9cec78c2c9a5e4b, type: 3}
   mapsDir: Maps

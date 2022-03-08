@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6765324087469890688}
-  - component: {fileID: 3278536007031935678}
-  - component: {fileID: 2126994650}
   - component: {fileID: 3074746361839082157}
   - component: {fileID: 3492200504003381939}
+  - component: {fileID: 3278536007031935678}
+  - component: {fileID: 5689122149115241238}
+  - component: {fileID: 2126994650}
   m_Layer: 0
   m_Name: Theseus
   m_TagString: Untagged
@@ -35,43 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3278536007031935678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6765324087469890695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed6a500b1ee657f4a9465adc0134c682, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  peso: 1
-  prioridad: 1
-  objetivo: {fileID: 0}
---- !u!114 &2126994650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6765324087469890695}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ca87a10f1cf8a348806bd582c91db0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  combinarPorPeso: 0
-  combinarPorPrioridad: 0
-  umbralPrioridad: 0.2
-  velocidadMax: 10
-  rotacionMax: 360
-  aceleracionMax: 5
-  aceleracionAngularMax: 0
-  velocidad: {x: 0, y: 0, z: 0}
-  rotacion: 0
-  orientacion: 90
 --- !u!65 &3074746361839082157
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -94,13 +58,72 @@ Rigidbody:
   m_GameObject: {fileID: 6765324087469890695}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1.34
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!114 &3278536007031935678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6765324087469890695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed6a500b1ee657f4a9465adc0134c682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  peso: 1
+  prioridad: 1
+  objetivo: {fileID: 0}
+  rotationSpeed: 720
+  graphGrid: {fileID: 0}
+  tstGph: {fileID: 0}
+--- !u!114 &5689122149115241238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6765324087469890695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e3c2f9a0fb7aea4a92a2de3d4f0c255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  peso: 1
+  prioridad: 1
+  objetivo: {fileID: 0}
+  rotationSpeed: 0
+  graphGrid: {fileID: 0}
+  tstGph: {fileID: 0}
+  distanceThreshold: 0
+--- !u!114 &2126994650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6765324087469890695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ca87a10f1cf8a348806bd582c91db0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combinarPorPeso: 0
+  combinarPorPrioridad: 1
+  umbralPrioridad: 0.2
+  velocidadMax: 10
+  rotacionMax: 720
+  aceleracionMax: 5
+  aceleracionAngularMax: 0
+  velocidad: {x: 0, y: 0, z: 0}
+  rotacion: 0
+  orientacion: 90
 --- !u!1001 &6765324088241874383
 PrefabInstance:
   m_ObjectHideFlags: 0

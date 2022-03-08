@@ -112,6 +112,11 @@ namespace UCM.IAV.Movimiento {
             if (cuerpoRigido == null)
                 return; // El movimiento serEcinemático, fotograma a fotograma con Update
 
+            if (combinarPorPrioridad) {
+                direccion = GetPrioridadDireccion();
+                grupos.Clear();
+            }
+
             // Limitamos la aceleración al máximo que acepta este agente (aunque normalmente vendrEya limitada)
             if (direccion.lineal.sqrMagnitude > aceleracionMax)
                 direccion.lineal = direccion.lineal.normalized * aceleracionMax;
@@ -267,8 +272,7 @@ namespace UCM.IAV.Movimiento {
             foreach (int gid in gIdList)
             {
                 direccion = new Direccion();
-                foreach (Direccion direccionIndividual in grupos[gid])
-                {
+                foreach (Direccion direccionIndividual in grupos[gid]){
                     // Dentro del grupo la mezcla es por peso
                     direccion.lineal += direccionIndividual.lineal;
                     direccion.angular += direccionIndividual.angular;

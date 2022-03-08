@@ -25,7 +25,7 @@ namespace UCM.IAV.Movimiento
         [SerializeField]
         float rotationSpeed;
         GameManager gM;
-        Rigidbody rb;
+
         Animator animC;
 
         [SerializeField]
@@ -34,23 +34,10 @@ namespace UCM.IAV.Movimiento
         [SerializeField]
         TesterGraph tstGph;
 
-        List<Vertex> pathToFollow;
-
-        GameObject endMaze;
+        bool walking;
         public override void Start(){
             base.Start();
-            rb = GetComponent<Rigidbody>();
             animC = GetComponentInChildren<Animator>();
-
-            if (graphGrid == null) Debug.LogError("No hay graphGrid");
-            endMaze = graphGrid.getEndMaze();
-
-            if (endMaze == null) Debug.LogError("No hay final de Maze");
-
-            if (tstGph == null) Debug.LogError("No hay TesterGraph");
-
-            pathToFollow = new List<Vertex>();
-
         }
         public override void Awake(){
             base.Awake();
@@ -60,22 +47,16 @@ namespace UCM.IAV.Movimiento
         public override void Update(){
             base.Update();
 
-            if (Mathf.Abs(Input.GetAxis("Vertical")) > 0 || Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
+            if (!Input.GetKey(KeyCode.Space))
+                walking = true;
+            else animC.SetBool("running", false);
+
+            if (Mathf.Abs(Input.GetAxis("Vertical")) > 0 || Mathf.Abs(Input.GetAxis("Horizontal")) > 0){
                 animC.SetBool("running", true);
-            else
-                animC.SetBool("running", false);
-
-
-            if (Input.GetKey(KeyCode.Space)){
-                Debug.Log("Calculating Path");
-                Vertex v = graphGrid.GetNearestVertex(transform.position);
-                pathToFollow = tstGph.getPathToNodeFrom(v.gameObject, endMaze);
             }
-
-            if (pathToFollow.Count != 0){
-                Debug.Log("Showing Path");
-                tstGph.ShowPath(pathToFollow, Color.white);
-                //pathToFollow = new List<Vertex>();
+            else
+            {
+                animC.SetBool("running", false);
             }
         }
 
@@ -84,37 +65,16 @@ namespace UCM.IAV.Movimiento
         /// </summary>
         /// <returns></returns>
         public override Direccion GetDirection(){
-            Direccion direccion = new Direccion(rotationSpeed);
-            direccion.lineal.x = Input.GetAxis("Vertical");
-            direccion.lineal.z = Input.GetAxis("Horizontal") * -1;
-            direccion.lineal.Normalize();
-            direccion.lineal *= agente.aceleracionMax;
-            return direccion;
-        }
-
-        public void OnDrawGizmos()
-        {
-            if (!Application.isPlaying)
-                return;
-
-            if (ReferenceEquals(graphGrid, null))
-                return;
-
-            Vertex v;
-           
-            int i;
-            Gizmos.color = Color.yellow;
-            for (i = 0; i < pathToFollow.Count; i++)
-            {
-                v = pathToFollow[i];
-                Gizmos.DrawSphere(v.transform.position, 0.433f);
-                //if (smoothPath && i != 0)
-                //{
-                //    Vertex prev = path[i - 1];
-                //    Gizmos.DrawLine(v.transform.position, prev.transform.position);
-
-                //}
+            Direccion direccion = new Direccion();
+            if (walking) {
+                direccion.angular = rotationSpeed;
+                direccion.lineal.x = Input.GetAxis("Vertical");
+                direccion.lineal.z = Input.GetAxis("Horizontal") * -1;
+                direccion.lineal.Normalize();
+                direccion.lineal *= agente.aceleracionMax;
+                
             }
+            return direccion;
         }
     }
 }

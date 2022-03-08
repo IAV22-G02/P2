@@ -69,8 +69,9 @@ namespace UCM.IAV.Navegacion
         }
 
         void Start(){
-            playerPos = gM.GetPlayer();    
-            //playerPos = graph.;    
+            playerPos = gM.GetPlayer();
+            //playerPos = graph.;
+            path = new List<Vertex>();
         }
 
         // Update is called once per frame
