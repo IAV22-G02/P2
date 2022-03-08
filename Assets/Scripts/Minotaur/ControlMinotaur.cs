@@ -13,7 +13,10 @@ namespace UCM.IAV.Movimiento
         public float avoidDistance;
 
         public float minotaurSight;
+        List<Vertex> pathToFollow;
 
+        [SerializeField]
+        TesterGraph tstGph;
 
         public override void Start()
         {
@@ -41,13 +44,13 @@ namespace UCM.IAV.Movimiento
             if (!this.enabled) return direccion;
             //Debug.Log("Hola holita vecinito");
             //GET MAIN DIRECTION
-            direccion.lineal = PlayerDetection(transform.forward, minotaurSight,ref direccion);
+            direccion.lineal = PlayerDetection(transform.forward, minotaurSight);
 
             // Podríamos meter una rotación automática en la dirección del movimiento, si quisiéramos
             return direccion;
         }
 
-        public Vector3 PlayerDetection(Vector3 directionRay, float distance, ref Direccion direct)
+        public Vector3 PlayerDetection(Vector3 directionRay, float distance)
         {
 
             Vector3 directionAcc = new Vector3();
@@ -70,16 +73,15 @@ namespace UCM.IAV.Movimiento
                 Debug.DrawRay(hit.point, reflectVec, Color.blue);
                 if (hit.collider.gameObject.GetComponent<ControlJugador>() != null)
                 {
-
                     Vector3 dir = hit.point + hit.normal * avoidDistance;
                     directionAcc += dir;
 
                     transform.LookAt(hit.collider.gameObject.transform);
-                }
 
-                direct.orientation = Vector3.SignedAngle(hit.collider.transform.position, 
-                                                         transform.position,
-                                                         Vector3.up);
+                    Vertex v = graph.GetNearestVertex(transform.position);
+                    GameObject endMaze = player;
+                    pathToFollow = tstGph.getPathToNodeFrom(v.gameObject, endMaze);
+                }
             }
             else
                 Debug.DrawRay(from, directionRay * distance, Color.green);
