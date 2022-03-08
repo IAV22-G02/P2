@@ -26,9 +26,9 @@ using UCM.IAV.Navegacion;
             graph = gM.GetGraph() as GraphGrid;
             testGraph = gM.GetTesterGraph() as TesterGraph; 
             objectiveReached = false;
-            minTimeToChange = 2000;
-            maxTimeToChange = minTimeToChange + 2000;
-            timeToChange = Random.Range(minTimeToChange, maxTimeToChange);
+            minTimeToChange = 10000;
+            maxTimeToChange = minTimeToChange + 8000;
+            timeToChange = 0;
             timeSinceLastChange = 0;
         }
 
@@ -36,7 +36,7 @@ using UCM.IAV.Navegacion;
         {
             base.Update();
             //Comprobar si ha llegado al destino
-            if (!objectiveReached && mapCells.Length > 0) {
+            if (!objectiveReached && mapCells != null) {
                 objectiveReached = (graph.GetNearestVertex(this.gameObject.transform.position) == graph.GetNearestVertex(mapCells[target].transform.position));
             }
         }
@@ -44,7 +44,7 @@ using UCM.IAV.Navegacion;
 
         public override Direccion GetDirection(){
             //Decidir si continuar o cambiar
-            if (!objectiveReached || timeToChange >= timeSinceLastChange){
+            if (objectiveReached || timeSinceLastChange >= timeToChange){
                 //Obtencion de la posicion relativa respecto al tablero
                 //GameObject ori = graph.GetNearestVertex(this.gameObject.transform.position);
                 //Obtencion de las posibles casillas del tablero
@@ -54,14 +54,14 @@ using UCM.IAV.Navegacion;
                 //Asignacion de objetivo
                 testGraph.getPathToNodeFrom(this.gameObject, mapCells[target]);
                 //Tiempo límite para alcanzar el lugar
-                timeToChange = Random.Range(minTimeToChange, maxTimeToChange);
+                timeToChange = timeSinceLastChange + Random.Range(minTimeToChange, maxTimeToChange) / 1000;
                 //Reset timer y objetivo
-                timeSinceLastChange = 0;
+                objectiveReached = false;
             }
             else
                 timeSinceLastChange += Time.deltaTime;
 
-            Debug.Log(timeSinceLastChange + "Yepa");
+            Debug.Log(timeSinceLastChange + "Yepa" + timeToChange);
             return direction;
         }
     }
