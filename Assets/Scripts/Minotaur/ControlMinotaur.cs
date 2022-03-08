@@ -23,33 +23,27 @@ namespace UCM.IAV.Movimiento
             graph = gM.GetGraph() as GraphGrid;
         }
 
-        public override void Awake()
-        {
-            base.Awake();
+        //public override void Awake()
+        //{
+        //    base.Awake();
 
-        }
+        //}
 
-        // Update is called once per frame
-        public override void Update()
-        {
-            base.Update();
-        }
-
-        public override void LateUpdate()
-        {
-            base.LateUpdate();
-
-
-        }
+        //public override void LateUpdate()
+        //{
+        //    base.LateUpdate();
+        //}
 
         public override Direccion GetDirection()
         {
 
             Direccion direccion = new Direccion();
             if (!this.enabled) return direccion;
-
+            //Debug.Log("Hola holita vecinito");
             //GET MAIN DIRECTION
             direccion.lineal = PlayerDetection(transform.forward, minotaurSight);
+
+            direccion.orientation = Vector3.SignedAngle(Vector3.forward, new Vector3(direccion.lineal.x, 0.0f, direccion.lineal.z), Vector3.up);
 
             // Podríamos meter una rotación automática en la dirección del movimiento, si quisiéramos
             return direccion;
