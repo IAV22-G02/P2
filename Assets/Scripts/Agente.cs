@@ -300,7 +300,7 @@ namespace UCM.IAV.Movimiento {
         }
 
         private void DebugTest(int i){
-            Debug.Log("Test:" + i);
+            //Debug.Log("Test:" + i);
         }
     }
 }
