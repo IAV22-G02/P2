@@ -61,9 +61,18 @@ namespace UCM.IAV.Movimiento
                 following = true;
                 animC.SetBool("running", true);
                 Debug.Log("Calculating Path");
-                Vertex v = graphGrid.GetNearestVertex(transform.position);
-                pathToFollow = new List<Vertex>();
-                pathToFollow = tstGph.getPathToNodeFrom(endMaze, v.gameObject);
+                //Obtencion del camino
+                Vector3 directionRay = -transform.up;
+                Vector3 from = this.transform.position;
+                from.y += 0.5f;
+                RaycastHit hit;
+                if (Physics.Raycast(from, directionRay, out hit, 1)){
+                    Debug.DrawRay(from, directionRay, Color.yellow);
+                    GameObject vert = hit.collider.gameObject;
+                    if (vert.GetComponent<Vertex>()){
+                        pathToFollow = tstGph.getPathToNodeFrom(endMaze, vert);
+                    }
+                }
             }
             else {
                 animC.SetBool("running", false);

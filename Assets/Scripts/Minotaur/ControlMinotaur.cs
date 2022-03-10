@@ -47,10 +47,23 @@ namespace UCM.IAV.Movimiento
                 //Obtencion de las posibles casillas del tablero
                 mapCells = graph.getVertex();
                 //Asignacion de objetivo
-                path = tstGph.getPathToNodeFrom(player, this.gameObject);
-                pathCount = 0;
-                //Reset timer y objetivo
-                objectiveReached = true;
+                //Obtencion del camino
+                Vector3 directionRay = -transform.up;
+                Vector3 from = this.transform.position;
+                from.y += 0.5f;
+                RaycastHit hit;
+                if (Physics.Raycast(from, directionRay, out hit, 1))
+                {
+                    Debug.DrawRay(from, directionRay, Color.yellow);
+                    GameObject vert = hit.collider.gameObject;
+                    if (vert.GetComponent<Vertex>())
+                    {
+                        path = tstGph.getPathToNodeFrom(player, this.gameObject);
+                        pathCount = 0;
+                        //Reset timer y objetivo
+                        objectiveReached = true;
+                    }
+                }
             }
             else if(chasing)
             {
