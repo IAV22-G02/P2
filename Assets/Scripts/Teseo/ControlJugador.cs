@@ -41,7 +41,7 @@ namespace UCM.IAV.Movimiento
         }
         public override void Awake(){
             base.Awake();
-            gM = GameManager.instance;  
+            gM = GameManager.instance;
             gM.SetPlayer(this.gameObject);
         }
         public override void Update(){

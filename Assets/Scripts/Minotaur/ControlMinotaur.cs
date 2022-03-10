@@ -18,6 +18,13 @@ namespace UCM.IAV.Movimiento
         TesterGraph tstGph;
 
         bool chasing = false;
+        private bool objectiveReached = false;
+
+        GameObject[] mapCells;
+
+        List<Vertex> path;
+
+        int pathCount = 0;
 
         public override void Start()
         {
@@ -28,26 +35,42 @@ namespace UCM.IAV.Movimiento
             tstGph = gM.GetTesterGraph();
         }
 
-        //public override void Awake()
-        //{
-        //    base.Awake();
-
-        //}
-
-        //public override void LateUpdate()
-        //{
-        //    base.LateUpdate();
-        //}
-
         public override Direccion GetDirection()
         {
             Direccion direccion = new Direccion();
             if (!this.enabled) return direccion;
-            //Debug.Log("Hola holita vecinito");
             //GET MAIN DIRECTION
             direccion.lineal = PlayerDetection(transform.forward, minotaurSight);
 
-
+            if (!objectiveReached)
+            {
+                //Obtencion de las posibles casillas del tablero
+                mapCells = graph.getVertex();
+                //Asignacion de objetivo
+                path = tstGph.getPathToNodeFrom(player, this.gameObject);
+                pathCount = 0;
+                //Reset timer y objetivo
+                objectiveReached = true;
+            }
+            else if(chasing)
+            {
+                Debug.Log("Hola holita vecinito");
+                //Seguir camino si existe
+                if (path.Count > 0 && pathCount >= 0)
+                {
+                    direccion.lineal = path[pathCount].transform.position - this.gameObject.transform.position;   //Sigue el Camino
+                    //Si ha llegado a la siguiente casilla
+                    if (direccion.lineal.magnitude <= 0.2)
+                    {
+                        if (pathCount < path.Count - 1)
+                            pathCount++;    //Avanza el camino
+                        else
+                            objectiveReached = true;    //Objetivo alcanzado
+                    }
+                    direccion.lineal.Normalize();
+                    direccion.lineal *= agente.aceleracionMax;
+                }
+            }
             // Podrú}mos meter una rotación automática en la dirección del movimiento, si quisiéramos
             return direccion;
         }
@@ -66,7 +89,7 @@ namespace UCM.IAV.Movimiento
 
                 Vector3 from = transform.position;
 
-                from.y = from.y + 0.3f;
+                from.y = from.y + 2.3f;
                 RaycastHit hit;
 
                 Vector3 playerDir = -(from - player.transform.position);
@@ -82,8 +105,11 @@ namespace UCM.IAV.Movimiento
                     // Draw lines to show the incoming "beam" and the reflection.
                     //Debug.DrawLine(from, hit.point, Color.red);
                     //Debug.DrawRay(hit.point, reflectVec, Color.blue);
+
+                    Debug.Log(hit.collider);
                     if (hit.collider.gameObject.GetComponent<ControlJugador>() != null)
                     {
+                        //Debug.Log("Hola holita vecinito");
                         //Vector3 dir = hit.point + hit.normal * avoidDistance;
                         //directionAcc += dir;
 
@@ -96,10 +122,7 @@ namespace UCM.IAV.Movimiento
                         chasing = true;
                     }
                 }
-                
-
             }
-
             return directionAcc;
         }
     }
