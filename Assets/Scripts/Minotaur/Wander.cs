@@ -80,7 +80,7 @@ using UCM.IAV.Navegacion;
                 if (path.Count > 0 && pathCount >= 0){
                     direction.lineal = path[pathCount].transform.position - this.gameObject.transform.position;   //Sigue el Camino
                     //Si ha llegado a la siguiente casilla
-                    if (direction.lineal.magnitude <= 0.2) {
+                    if (direction.lineal.magnitude <= 0.4) {
                         if (pathCount < path.Count - 1)
                             pathCount++;    //Avanza el camino
                         else

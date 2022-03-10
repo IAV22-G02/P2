@@ -132,6 +132,8 @@ namespace UCM.IAV.Movimiento
                         pathToFollow = tstGph.getPathToNodeFrom(v.gameObject, endMaze);
 
                         chasing = true;
+
+                        hit.collider.gameObject.GetComponent<Wander>().enabled = false;
                     }
                 }
             }

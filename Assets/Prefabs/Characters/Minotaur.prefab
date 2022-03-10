@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6920738872596219604}
   - component: {fileID: -8381212977847259572}
-  - component: {fileID: 417592657514028885}
   - component: {fileID: -5969943925394595600}
   - component: {fileID: 3009942697612317641}
   - component: {fileID: 8327900368382232941}
+  - component: {fileID: 3171146472537994880}
   m_Layer: 0
   m_Name: Minotaur
   m_TagString: Untagged
@@ -52,19 +52,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!65 &417592657514028885
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6920738872596219605}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8, y: 1.468666, z: 0.8}
-  m_Center: {x: 0, y: 0.834333, z: 0}
 --- !u!114 &-5969943925394595600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +107,20 @@ MonoBehaviour:
   peso: 1
   prioridad: 1
   objetivo: {fileID: 0}
+--- !u!136 &3171146472537994880
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920738872596219605}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.37142843
+  m_Height: 2.0434551
+  m_Direction: 1
+  m_Center: {x: 0.004977703, y: 1.1026516, z: 0}
 --- !u!1001 &1187404024817514853
 PrefabInstance:
   m_ObjectHideFlags: 0
