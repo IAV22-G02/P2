@@ -132,10 +132,6 @@ namespace UCM.IAV.Movimiento {
                 cuerpoRigido.rotation = Quaternion.RotateTowards(cuerpoRigido.rotation, toRotate, direccion.angular * Time.fixedDeltaTime);
             }
 
-
-            //Vector3 orientationVector = OriToVec(direccion.orientation);
-            //cuerpoRigido.rotation = Quaternion.LookRotation(orientationVector, Vector3.up);
-
             if (cuerpoRigido.velocity.magnitude > velocidadMax)
                 cuerpoRigido.velocity = cuerpoRigido.velocity.normalized * velocidadMax;
 
@@ -156,7 +152,6 @@ namespace UCM.IAV.Movimiento {
             if (cuerpoRigido != null)
                 return; // El movimiento serEdinámico, controlado por la fúica y FixedUpdate
 
-            DebugTest(2);
             // Limito la velocidad lineal antes de empezar
             if (velocidad.magnitude > velocidadMax)
                 velocidad = velocidad.normalized * velocidadMax;

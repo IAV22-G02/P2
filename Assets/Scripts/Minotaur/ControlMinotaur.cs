@@ -1,4 +1,4 @@
-namespace UCM.IAV.Movimiento
+ï»¿namespace UCM.IAV.Movimiento
 {
     using UnityEngine;
     using System.Collections.Generic;
@@ -15,8 +15,9 @@ namespace UCM.IAV.Movimiento
         public float minotaurSight;
         List<Vertex> pathToFollow;
 
-        TesterGraph tstGph;
+        TesterGraph testGraph;
 
+        float lostFocusTime, timeToChange, timeSinceLastChange;
         bool chasing = false;
         private bool objectiveReached = false;
 
@@ -32,22 +33,31 @@ namespace UCM.IAV.Movimiento
             gM = GameManager.instance;
             player = gM.GetPlayer();
             graph = gM.GetGraph() as GraphGrid;
-            tstGph = gM.GetTesterGraph();
+            testGraph = gM.GetTesterGraph();
+            lostFocusTime = 6.0f;
+            timeToChange = 0;
+            timeSinceLastChange = 0;
+        }
+        public override void Update()
+        {
+            base.Update();
         }
 
         public override Direccion GetDirection()
         {
             Direccion direccion = new Direccion();
             if (!this.enabled) return direccion;
-            //GET MAIN DIRECTION
-            direccion.lineal = PlayerDetection(transform.forward, minotaurSight);
-
-            if (!objectiveReached)
+            //GET Chasing State
+            PlayerDetection(transform.forward, minotaurSight);
+            //Si no caza
+            if (!chasing)
             {
-                //Obtencion de las posibles casillas del tablero
-                mapCells = graph.getVertex();
+
+                return direccion;
+            }
+            else
+            {
                 //Asignacion de objetivo
-                //Obtencion del camino
                 Vector3 directionRay = -transform.up;
                 Vector3 from = this.transform.position;
                 from.y += 0.5f;
@@ -58,86 +68,93 @@ namespace UCM.IAV.Movimiento
                     GameObject vert = hit.collider.gameObject;
                     if (vert.GetComponent<Vertex>())
                     {
-                        path = tstGph.getPathToNodeFrom(player, this.gameObject);
+                        path = testGraph.getPathToNodeFrom(player, vert);
                         pathCount = 0;
-                        //Reset timer y objetivo
-                        objectiveReached = true;
                     }
                 }
-            }
-            else if(chasing)
-            {
-                Debug.Log("Hola holita vecinito");
                 //Seguir camino si existe
                 if (path.Count > 0 && pathCount >= 0)
                 {
-                    direccion.lineal = path[pathCount].transform.position - this.gameObject.transform.position;   //Sigue el Camino
-                    //Si ha llegado a la siguiente casilla
-                    if (direccion.lineal.magnitude <= 0.2)
+                    direccion.lineal = -(path[pathCount].transform.position - this.gameObject.transform.position);   //Sigue el Camino
+                                                                                                                     //Si ha llegado a la siguiente casilla
+                    if (direccion.lineal.magnitude <= 0.8)
                     {
                         if (pathCount < path.Count - 1)
                             pathCount++;    //Avanza el camino
-                        else
-                            objectiveReached = true;    //Objetivo alcanzado
                     }
                     direccion.lineal.Normalize();
+                    direccion.angular = agente.aceleracionAngularMax;
                     direccion.lineal *= agente.aceleracionMax;
                 }
+                Debug.Log(direccion.lineal);
+                timeSinceLastChange += Time.deltaTime;
+
+                return direccion;
             }
-            // Podrú}mos meter una rotación automática en la dirección del movimiento, si quisiéramos
-            return direccion;
         }
 
-        public Vector3 PlayerDetection(Vector3 directionRay, float distance)
+
+        //if (!objectiveReached)
+        //{
+        //    //Asignacion de objetivo
+        //    //Obtencion del camino
+        //    Vector3 directionRay = -transform.up;
+        //    Vector3 from = this.transform.position;
+        //    from.y += 0.5f;
+        //    RaycastHit hit;
+        //    if (Physics.Raycast(from, directionRay, out hit, 1))
+        //    {
+        //        Debug.DrawRay(from, directionRay, Color.yellow);
+        //        GameObject vert = hit.collider.gameObject;
+        //        if (vert.GetComponent<Vertex>())
+        //        {
+        //            path = tstGph.getPathToNodeFrom(player, this.gameObject);
+        //            pathCount = 0;
+        //            //Reset timer y objetivo
+        //            objectiveReached = true;
+        //        }
+        //    }
+        //}
+        //else if(chasing)
+        //{
+        //    Debug.Log("Hola holita vecinito");
+        //    //Seguir camino si existe
+        //    if (path.Count > 0 && pathCount >= 0)
+        //    {
+        //        direccion.lineal = path[pathCount].transform.position - this.gameObject.transform.position;   //Sigue el Camino
+        //        //Si ha llegado a la siguiente casilla
+        //        if (direccion.lineal.magnitude <= 0.2)
+        //        {
+        //            if (pathCount < path.Count - 1)
+        //                pathCount++;    //Avanza el camino
+        //            else
+        //                objectiveReached = true;    //Objetivo alcanzado
+        //        }
+        //        direccion.lineal.Normalize();
+        //        direccion.lineal *= agente.aceleracionMax;
+        //    }
+        //}
+        //// Podråƒ˜mos meter una rotaciî‰¢ automç–¸ica en la direcciî‰¢ del movimiento, si quisié§»amos
+        //return direccion;
+    
+
+        public void PlayerDetection(Vector3 directionRay, float distance)
         {
-            Vector3 directionAcc = new Vector3();
-
-            if (chasing)
+            Vector3 from = transform.position;
+            from.y += 0.5f;
+            RaycastHit hit;
+            if (Physics.Raycast(from, directionRay, out hit, distance))
             {
-                Vertex v = graph.GetNearestVertex(transform.position);
-                pathToFollow = tstGph.getPathToNodeFrom(v.gameObject, player);
-            }
-            else
-            {
-                Vector3 from = transform.position;
-
-                from.y = from.y + 2.3f;
-                RaycastHit hit;
-
-                Vector3 playerDir = -(from - player.transform.position);
-
-                if (Physics.Raycast(from, playerDir, out hit, distance))
+                if (hit.collider.gameObject == player)
                 {
-                    // Find the line from the gun to the point that was clicked.
-                    Vector3 incomingVec = hit.point - transform.position;
-                    // Use the point's normal to calculate the reflection vector.
-                    Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
-
-                    Debug.DrawRay(from, playerDir, Color.green);
-                    // Draw lines to show the incoming "beam" and the reflection.
-                    //Debug.DrawLine(from, hit.point, Color.red);
-                    //Debug.DrawRay(hit.point, reflectVec, Color.blue);
-
-                    Debug.Log(hit.collider);
-                    if (hit.collider.gameObject.GetComponent<ControlJugador>() != null)
-                    {
-                        //Debug.Log("Hola holita vecinito");
-                        //Vector3 dir = hit.point + hit.normal * avoidDistance;
-                        //directionAcc += dir;
-
-                        transform.LookAt(hit.collider.gameObject.transform);
-
-                        Vertex v = graph.GetNearestVertex(transform.position);
-                        GameObject endMaze = player;
-                        pathToFollow = tstGph.getPathToNodeFrom(v.gameObject, endMaze);
-
-                        chasing = true;
-
-                        hit.collider.gameObject.GetComponent<Wander>().enabled = false;
-                    }
+                    //Timer para que deje de seguir al jugador si no lo ve
+                    timeToChange = timeSinceLastChange + lostFocusTime;
+                    chasing = true;
                 }
             }
-            return directionAcc;
+
+            if (timeSinceLastChange >= timeToChange)
+                chasing = false;
         }
     }
 

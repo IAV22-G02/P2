@@ -50,7 +50,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &-5969943925394595600
 MonoBehaviour:
@@ -69,7 +69,7 @@ MonoBehaviour:
   objetivo: {fileID: 0}
   graph: {fileID: 0}
   avoidDistance: 0
-  minotaurSight: 1000
+  minotaurSight: 100
 --- !u!114 &3009942697612317641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,9 +86,9 @@ MonoBehaviour:
   combinarPorPrioridad: 0
   umbralPrioridad: 0.2
   velocidadMax: 3
-  rotacionMax: 0
-  aceleracionMax: 3
-  aceleracionAngularMax: 0
+  rotacionMax: 6
+  aceleracionMax: 8
+  aceleracionAngularMax: 180
   velocidad: {x: 0, y: 0, z: 0}
   rotacion: 0
   orientacion: 0

@@ -34,17 +34,6 @@ using UCM.IAV.Navegacion;
             timeSinceLastChange = 0;
         }
 
-        public override void Update()
-        {
-            base.Update();
-            //Comprobar si ha llegado al destino
-            //if (!objectiveReached && mapCells != null && target >= 0)
-            //{
-            //    objectiveReached = (graph.GetNearestVertex(this.gameObject.transform.position) == graph.GetNearestVertex(mapCells[target].transform.position));
-            //}
-        }
-
-
         public override Direccion GetDirection(){
             Direccion direction = new Direccion();
             //Decidir si continuar o cambiar
@@ -87,12 +76,11 @@ using UCM.IAV.Navegacion;
                             objectiveReached = true;    //Objetivo alcanzado
                     }
                     direction.lineal.Normalize();
+                    direction.angular = agente.aceleracionAngularMax;
                     direction.lineal *= agente.aceleracionMax;
                 }
                 timeSinceLastChange += Time.deltaTime;
             }
-            //test
-            this.gameObject.GetComponent<Rigidbody>().AddForce(direction.lineal);
 
             return direction;
         }
