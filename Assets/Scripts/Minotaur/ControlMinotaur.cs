@@ -69,18 +69,19 @@ namespace UCM.IAV.Movimiento
                 from.y = from.y + 0.3f;
                 RaycastHit hit;
 
-                Debug.DrawRay(from, directionRay * distance, Color.green);
+                Vector3 playerDir = -(from - player.transform.position);
 
-                if (Physics.Raycast(from, directionRay, out hit, distance))
+                if (Physics.Raycast(from, playerDir, out hit, distance))
                 {
                     // Find the line from the gun to the point that was clicked.
                     Vector3 incomingVec = hit.point - transform.position;
                     // Use the point's normal to calculate the reflection vector.
                     Vector3 reflectVec = Vector3.Reflect(incomingVec, hit.normal);
 
+                    Debug.DrawRay(from, playerDir, Color.green);
                     // Draw lines to show the incoming "beam" and the reflection.
-                    Debug.DrawLine(from, hit.point, Color.red);
-                    Debug.DrawRay(hit.point, reflectVec, Color.blue);
+                    //Debug.DrawLine(from, hit.point, Color.red);
+                    //Debug.DrawRay(hit.point, reflectVec, Color.blue);
                     if (hit.collider.gameObject.GetComponent<ControlJugador>() != null)
                     {
                         //Vector3 dir = hit.point + hit.normal * avoidDistance;
@@ -95,8 +96,7 @@ namespace UCM.IAV.Movimiento
                         chasing = true;
                     }
                 }
-                else
-                    Debug.DrawRay(from, directionRay * distance, Color.green);
+                
 
             }
 
