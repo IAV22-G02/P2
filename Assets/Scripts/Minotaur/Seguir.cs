@@ -19,7 +19,6 @@ namespace UCM.IAV.Movimiento
     /// </summary>
     public class Seguir : ComportamientoAgente
     {
-
         [SerializeField]
         float threshold;
 

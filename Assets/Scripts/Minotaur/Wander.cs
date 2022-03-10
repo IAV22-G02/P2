@@ -55,12 +55,24 @@ using UCM.IAV.Navegacion;
                 //Destino objetivo random
                 int target = Random.Range(0, mapCells.Length);
                 //Asignacion de objetivo
-                path = testGraph.getPathToNodeFrom(mapCells[target], this.gameObject);
-                pathCount = 0;
-                //Tiempo límite para alcanzar el lugar
-                timeToChange = timeSinceLastChange + Random.Range(minTimeToChange, maxTimeToChange) / 1000;
-                //Reset timer y objetivo
-                objectiveReached = false;
+                Vector3 directionRay = -transform.up;
+                Vector3 from = this.transform.position;
+                from.y += 0.5f;
+                RaycastHit hit;
+                if (Physics.Raycast(from, directionRay, out hit, 1))
+                {
+                    Debug.DrawRay(from, directionRay, Color.yellow);
+                    GameObject vert = hit.collider.gameObject;
+                    if (vert.GetComponent<Vertex>())
+                    {
+                        path = testGraph.getPathToNodeFrom(mapCells[target], vert);
+                        pathCount = 0;
+                        //Tiempo límite para alcanzar el lugar
+                        timeToChange = timeSinceLastChange + Random.Range(minTimeToChange, maxTimeToChange) / 1000;
+                        //Reset timer y objetivo
+                        objectiveReached = false;
+                    }
+                }
             }
             else
             {

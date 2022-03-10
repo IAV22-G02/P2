@@ -86,7 +86,6 @@ namespace UCM.IAV.Movimiento
             }
             else
             {
-
                 Vector3 from = transform.position;
 
                 from.y = from.y + 2.3f;
