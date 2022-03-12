@@ -29,6 +29,8 @@ namespace UCM.IAV.Movimiento
 
         GameObject endMaze;
 
+        LineRenderer lineRendererCam;
+
         bool following;
 
         int pathIterator;
@@ -48,6 +50,10 @@ namespace UCM.IAV.Movimiento
             if (tstGph == null) Debug.LogError("No hay TesterGraph");
 
             pathToFollow = new List<Vertex>();
+
+            lineRendererCam = Camera.main.GetComponent<LineRenderer>();
+            lineRendererCam.startColor = Color.white;
+            lineRendererCam.endColor = Color.green;
         }
 
         // Update is called once per frame
@@ -75,10 +81,18 @@ namespace UCM.IAV.Movimiento
                     GameObject vert = hit.collider.gameObject;
                     if (vert.GetComponent<Vertex>()){
                         pathToFollow = tstGph.getPathToNodeFrom(endMaze, vert);
+                        lineRendererCam.positionCount = pathToFollow.Count;
+                        lineRendererCam.SetPosition(0, gameObject.transform.position);
+                        for (int i = 1; i < pathToFollow.Count; i++){
+                            Vector3 position = pathToFollow[i].gameObject.transform.position;
+                            position.y += 0.5f;
+                            lineRendererCam.SetPosition(i, position);
+                        }
                     }
                 }
             }
             else {
+                lineRendererCam.positionCount = 0;
                 animC.SetBool("running", false);
                 following = false;
             }
