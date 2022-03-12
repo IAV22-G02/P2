@@ -23,6 +23,8 @@
 
         GameObject[] mapCells;
 
+        GameObject lastCell, currentCell; 
+
         List<Vertex> path;
 
         int pathCount = 0;
@@ -79,8 +81,10 @@
                                                                                                                      //Si ha llegado a la siguiente casilla
                     if (direccion.lineal.magnitude <= 0.8)
                     {
-                        if (pathCount < path.Count - 1)
+                        if (pathCount < path.Count - 1){
+                            //path[pathCount].vecinos
                             pathCount++;    //Avanza el camino
+                        }
                     }
                     direccion.lineal.Normalize();
                     direccion.angular = agente.aceleracionAngularMax;
@@ -155,6 +159,12 @@
 
             if (timeSinceLastChange >= timeToChange)
                 chasing = false;
+        }
+
+        public void setCostCell(ref Vertex vertex, in float cost){
+            foreach(Edge e in vertex.vecinos){
+                e.cost = cost;
+            }
         }
     }
 

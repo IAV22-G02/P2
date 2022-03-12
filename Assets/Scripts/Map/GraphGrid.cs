@@ -35,6 +35,7 @@ namespace UCM.IAV.Navegacion
         public float cellSize = 1f;
         [Range(0, Mathf.Infinity)]
         public float defaultCost = 1f;
+        public float minotaurCost = 3.0f;
         [Range(0, Mathf.Infinity)]
         public float maximumCost = Mathf.Infinity;
 
