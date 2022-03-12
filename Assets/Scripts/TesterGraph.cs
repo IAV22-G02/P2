@@ -144,9 +144,10 @@ namespace UCM.IAV.Navegacion
                     path = graph.GetPathDFS(ori, dest);
                     break;
             }
-            if (smoothPath)
-                path = graph.Smooth(path); // Suavizar el camino, una vez calculado
 
+            // Suavizar el camino, una vez calculado
+            if (smoothPath)
+                path = graph.Smooth(path); 
 
             return path;
         }
@@ -162,12 +163,12 @@ namespace UCM.IAV.Navegacion
                 return;
 
             Vertex v;
-            if (!ReferenceEquals(playerPos, null))
-            {
-                Gizmos.color = Color.green; // Verde es el nodo inicial
-                v = graph.GetNearestVertex(playerPos.transform.position);
-                Gizmos.DrawSphere(v.transform.position, pathNodeRadius);
-            }
+            //if (!ReferenceEquals(playerPos, null))
+            //{
+            //    Gizmos.color = Color.green; // Verde es el nodo inicial
+            //    v = graph.GetNearestVertex(playerPos.transform.position);
+            //    Gizmos.DrawSphere(v.transform.position, pathNodeRadius);
+            //}
             if (!ReferenceEquals(finalMazePos, null))
             {
                 Gizmos.color = Color.red; // Rojo es el color del nodo de destino

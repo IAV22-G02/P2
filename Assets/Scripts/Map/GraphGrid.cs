@@ -164,7 +164,12 @@ namespace UCM.IAV.Navegacion
                             neighbors.Add(new List<Vertex>());
                             costs.Add(new List<float>());
                             float y = vertexObjs[id].transform.localScale.y;
-                            scale = new Vector3(cellSize, y, cellSize);
+                            float z = vertexObjs[id].transform.localScale.z;
+                            if (vertexObjs[id].tag.Equals("Wall")){
+                                scale = new Vector3(cellSize, cellSize, z);
+                            }
+                            else scale = new Vector3(cellSize, y, cellSize);
+
                             vertexObjs[id].transform.localScale = scale;
                             vertexObjs[id].transform.parent = gameObject.transform;
                         }

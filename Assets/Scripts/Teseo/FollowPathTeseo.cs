@@ -57,6 +57,10 @@ namespace UCM.IAV.Movimiento
                 animC.SetBool("running", true);
             }
 
+            if (Input.GetKeyDown(KeyCode.S)){
+                tstGph.smoothPath = !tstGph.smoothPath;
+            }
+
             if (Input.GetKey(KeyCode.Space)) {
                 following = true;
                 animC.SetBool("running", true);
@@ -113,7 +117,8 @@ namespace UCM.IAV.Movimiento
 
         public override Direccion GetDirection(){
             Direccion direccion = new Direccion();
-            if (following && pathToFollow.Count != 0){
+            if (following && pathToFollow.Count > 0 && pathIterator < pathToFollow.Count)
+            {
                 direccion.angular = rotationSpeed;
                 direccion.lineal = pathToFollow[pathIterator].transform.position - transform.position;
                 if (direccion.lineal.magnitude <= distanceThreshold)

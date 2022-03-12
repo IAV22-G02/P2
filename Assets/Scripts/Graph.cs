@@ -231,10 +231,45 @@ namespace UCM.IAV.Navegacion
         }
 
         public List<Vertex> Smooth(List<Vertex> path){
-            // AQUÍ HAY QUE PONER LA IMPLEMENTACIÓN DEL ALGORITMO DE SUAVIZADO
-            // ...
-
-            return null; //newPath
+            List<Vertex> newPath = new List<Vertex>();
+            if (path.Count == 0)
+                return newPath;
+            if (path.Count < 3)
+                return path;
+            newPath.Add(path[0]);
+            int i, j;
+            for (i = 0; i < path.Count - 1;)
+            {
+                for (j = i + 1; j < path.Count; j++)
+                {
+                    Vector3 origin = path[i].transform.position;
+                    origin.y += 0.2f;
+                    Vector3 destination = path[j].transform.position;
+                    destination.y += 0.2f;
+                    Vector3 direction = destination - origin;
+                    float distance = direction.magnitude;
+                    bool isWall = false;
+                    direction.Normalize();
+                    Ray ray = new Ray(origin, direction);
+                    Debug.DrawRay(origin, direction, Color.yellow);
+                    RaycastHit[] hits;
+                    hits = Physics.RaycastAll(ray, distance);
+                    foreach (RaycastHit hit in hits)
+                    {
+                        string tag = hit.collider.gameObject.tag;
+                        if (tag.Equals("Wall"))
+                        {
+                            isWall = true;
+                            break;
+                        }
+                    }
+                    if (isWall)
+                        break;
+                }
+                i = j - 1;
+                newPath.Add(path[i]);
+            }
+            return newPath;
         }
 
         // Reconstruir el camino, dando la vuelta a la lista de nodos 'padres' /previos que hemos ido anotando
