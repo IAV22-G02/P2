@@ -93,6 +93,9 @@ using UCM.IAV.Navegacion;
                 }
                 timeSinceLastChange += Time.deltaTime;
             }
+            //Debug.Log(direction.lineal);
+            //test
+            this.gameObject.GetComponent<Rigidbody>().AddForce(direction.lineal);
 
             return direction;
         }

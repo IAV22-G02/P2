@@ -24,6 +24,11 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    public void ChangeHeuristica()
+    {
+        testGraph.heu = (testGraph.heu == AStarHeuristic.Manhattan) ? AStarHeuristic.Euclideo : AStarHeuristic.Manhattan;
+    }
+
     public void SetGraph(Graph gph){
         this.graph = gph;
     }

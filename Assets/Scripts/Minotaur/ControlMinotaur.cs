@@ -94,7 +94,7 @@
                     direccion.angular = agente.aceleracionAngularMax;
                     direccion.lineal *= agente.aceleracionMax;
                 }
-                Debug.Log(direccion.lineal);
+                //Debug.Log(direccion.lineal);
                 timeSinceLastChange += Time.deltaTime;
 
                 return direccion;

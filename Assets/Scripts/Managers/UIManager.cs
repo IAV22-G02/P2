@@ -49,4 +49,9 @@ public class UIManager : MonoBehaviour
     public void GenerateMap(){
         gM.createMap(size, size);
     }
+
+    public void changeHeuristic()
+    {
+        gM.ChangeHeuristica();
+    }
 }
