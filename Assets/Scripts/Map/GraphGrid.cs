@@ -44,12 +44,22 @@ namespace UCM.IAV.Navegacion
         GameObject[] vertexObjs;
         bool[,] mapVertices;
 
+        private int numCells;
+
+        [HideInInspector]
+        public int numVisited;
         //Player
         [InspectorName("Teseo")]
         public GameObject player;
 
         [InspectorName("Minotauro")]
         public GameObject monster;
+
+        private GameObject minotaurCell, minotaurGO;
+
+        int getNumCells(){
+            return numCells;
+        }
 
         private int GridToId(int x, int y)
         {
@@ -120,6 +130,7 @@ namespace UCM.IAV.Navegacion
                             id = GridToId(j, i);
                             if (isGround){
                                vertexObjs[id] = Instantiate(vertexPrefab, position, Quaternion.identity) as GameObject;
+                                numCells++;
                             }
                             else {
                                 if (line[j] == 'S')
@@ -142,7 +153,8 @@ namespace UCM.IAV.Navegacion
 
                             if(!minotaur && j == centerWidth && (i == centerHeight || i == centerHeight + 1) ){
                                 if (line[j] == '.'){
-                                    Instantiate(monster, position, Quaternion.identity);
+                                    minotaurGO = Instantiate(monster, position, Quaternion.identity);
+                                    minotaurCell = vertexObjs[id];
                                     minotaur = true;
                                 }
                                 else{
@@ -150,7 +162,8 @@ namespace UCM.IAV.Navegacion
                                     int k = 1; 
                                     while (!minotaur && k < limit){
                                         if (line[j + k] == '.' || line[j - k] == '.') {
-                                            Instantiate(monster, position, Quaternion.identity);
+                                            minotaurGO = Instantiate(monster, position, Quaternion.identity);
+                                            minotaurCell = vertexObjs[id];
                                             minotaur = true;
                                         }
                                         k++;
@@ -160,6 +173,7 @@ namespace UCM.IAV.Navegacion
 
                             vertexObjs[id].name = vertexObjs[id].name.Replace("(Clone)", id.ToString());
                             Vertex v = vertexObjs[id].AddComponent<Vertex>();
+                            v.vecinos = new List<Edge>();
                             v.id = id;
                             vertices.Add(v);
                             neighbors.Add(new List<Vertex>());
@@ -185,6 +199,9 @@ namespace UCM.IAV.Navegacion
                         }
                     }
                 }
+
+                Vector3 transformCell = new Vector3(minotaurCell.transform.position.x, minotaurGO.transform.position.y, minotaurCell.transform.position.z);
+                minotaurGO.transform.position = transformCell;
             }
             catch (Exception e)
             {
@@ -227,6 +244,8 @@ namespace UCM.IAV.Navegacion
                 pos[2] = new Vector2(col + 1, row);
                 pos[3] = new Vector2(col, row + 1);
             }
+            Vertex vert = vertexObjs[vertexId].GetComponent<Vertex>();
+
             foreach (Vector2 p in pos)
             {
                 i = (int)p.y;
@@ -241,6 +260,7 @@ namespace UCM.IAV.Navegacion
                     continue;
                 int id = GridToId(j, i);
                 neighbors[vertexId].Add(vertices[id]);
+                vert.vecinos.Add(new Edge(vertices[id], defaultCost));
                 costs[vertexId].Add(defaultCost);
             }
         }

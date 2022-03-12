@@ -79,7 +79,13 @@ namespace UCM.IAV.Movimiento
                 if (Physics.Raycast(from, directionRay, out hit, 1)){
                     Debug.DrawRay(from, directionRay, Color.yellow);
                     GameObject vert = hit.collider.gameObject;
-                    if (vert.GetComponent<Vertex>()){
+                    Vertex v = vert.GetComponent<Vertex>();
+                    if (v){
+                        if (!v.visited){
+                            v.visited = true;
+                            graphGrid.numVisited++;
+                        }
+
                         pathToFollow = tstGph.getPathToNodeFrom(endMaze, vert);
                         lineRendererCam.positionCount = pathToFollow.Count;
                         lineRendererCam.SetPosition(0, gameObject.transform.position);

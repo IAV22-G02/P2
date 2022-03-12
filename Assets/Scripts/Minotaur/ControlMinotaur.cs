@@ -23,7 +23,7 @@
 
         GameObject[] mapCells;
 
-        GameObject lastCell, currentCell; 
+        Vertex  lastCell, currentCell; 
 
         List<Vertex> path;
 
@@ -68,9 +68,10 @@
                 {
                     Debug.DrawRay(from, directionRay, Color.yellow);
                     GameObject vert = hit.collider.gameObject;
-                    if (vert.GetComponent<Vertex>())
-                    {
+                    if (vert.GetComponent<Vertex>()){
+                        lastCell = currentCell = vert.GetComponent<Vertex>();
                         path = testGraph.getPathToNodeFrom(player, vert);
+                        setCostCell(ref lastCell, graph.minotaurCost);
                         pathCount = 0;
                     }
                 }
@@ -82,8 +83,11 @@
                     if (direccion.lineal.magnitude <= 0.8)
                     {
                         if (pathCount < path.Count - 1){
-                            //path[pathCount].vecinos
                             pathCount++;    //Avanza el camino
+                            lastCell = path[pathCount - 1];
+                            setCostCell(ref lastCell, graph.defaultCost);
+                            currentCell = path[pathCount];
+                            setCostCell(ref currentCell, graph.minotaurCost);
                         }
                     }
                     direccion.lineal.Normalize();
@@ -162,8 +166,11 @@
         }
 
         public void setCostCell(ref Vertex vertex, in float cost){
-            foreach(Edge e in vertex.vecinos){
-                e.cost = cost;
+            if (vertex.vecinos.Count > 0)
+            {
+                foreach(Edge e in vertex.vecinos){
+                    e.cost = cost;
+                }
             }
         }
     }

@@ -11,6 +11,8 @@ using UCM.IAV.Navegacion;
         TesterGraph testGraph;
         GameManager gM;
 
+        ControlMinotaur ctrlMinot;
+
         float minTimeToChange, maxTimeToChange, timeToChange, timeSinceLastChange;
 
         bool objectiveReached;
@@ -20,6 +22,8 @@ using UCM.IAV.Navegacion;
 
         List<Vertex> path;
         int pathCount = 0;
+
+        Vertex lastCell, currentCell;
 
         public override void Start()
         {
@@ -32,6 +36,7 @@ using UCM.IAV.Navegacion;
             maxTimeToChange = minTimeToChange + 8000;
             timeToChange = 0;
             timeSinceLastChange = 0;
+            ctrlMinot = GetComponent<ControlMinotaur>();
         }
 
         public override Direccion GetDirection(){
@@ -56,6 +61,8 @@ using UCM.IAV.Navegacion;
                     {
                         path = testGraph.getPathToNodeFrom(mapCells[target], vert);
                         pathCount = 0;
+                        lastCell = currentCell = vert.GetComponent<Vertex>();
+                        ctrlMinot.setCostCell(ref lastCell, graph.minotaurCost);
                         //Tiempo límite para alcanzar el lugar
                         timeToChange = timeSinceLastChange + Random.Range(minTimeToChange, maxTimeToChange) / 1000;
                         //Reset timer y objetivo
@@ -70,8 +77,13 @@ using UCM.IAV.Navegacion;
                     direction.lineal = path[pathCount].transform.position - this.gameObject.transform.position;   //Sigue el Camino
                     //Si ha llegado a la siguiente casilla
                     if (direction.lineal.magnitude <= 0.4) {
-                        if (pathCount < path.Count - 1)
+                        if (pathCount < path.Count - 1){
                             pathCount++;    //Avanza el camino
+                            lastCell = path[pathCount - 1];
+                            ctrlMinot.setCostCell(ref lastCell, graph.defaultCost);
+                            currentCell = path[pathCount];
+                            ctrlMinot.setCostCell(ref currentCell, graph.minotaurCost);
+                        }
                         else
                             objectiveReached = true;    //Objetivo alcanzado
                     }

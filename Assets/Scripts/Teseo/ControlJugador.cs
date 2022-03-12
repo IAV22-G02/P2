@@ -33,6 +33,10 @@ namespace UCM.IAV.Movimiento
         [SerializeField]
         TesterGraph tstGph;
 
+        [SerializeField]
+        GameObject globalLight;
+        bool activeLight = false;
+
         bool walking;
         public override void Start(){
             base.Start();
@@ -45,6 +49,12 @@ namespace UCM.IAV.Movimiento
         }
         public override void Update(){
             base.Update();
+
+            if (Input.GetKeyDown(KeyCode.L)){
+                Debug.Log("Light");
+                activeLight = !activeLight;
+                globalLight.SetActive(activeLight);
+            }
 
             if (!Input.GetKey(KeyCode.Space))
                 walking = true;

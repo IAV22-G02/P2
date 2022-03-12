@@ -27,7 +27,8 @@ namespace UCM.IAV.Navegacion
         /// </summary>
         public int id;
 
-        bool visited = false;
+        [HideInInspector]
+        public bool visited = false;
 
         /// <summary>
         /// Vecinos del vértice
