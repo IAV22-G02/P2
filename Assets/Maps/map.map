@@ -1,14 +1,38 @@
 type octile
-height 10
-width 10
+height 34
+width 34
 map
-TTTTTTTTTT
-T........T
-T........T
-T..TTTTTTT
-T..T.....T
-T..T.....T
-S..TTTT..T
-T........T
-T........F
-TTTTTTTTTT
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+T..............T...........T.....T
+T..............T...........T.....T
+S..TTTTTTTTTT..T..TTTTTTT..TTTT..T
+T.....T.....T..T..T........T.....T
+T.....T.....T..T..T........T.....T
+TTTT..T..T..T..T..TTTT..TTTT..T..T
+T.....T..T..T..T.....T........T..T
+T.....T..T..T..T.....T........T..T
+T..TTTT..T..T..TTTT..TTTTTTTTTT..T
+T..T.....T...........T........T..T
+T..T.....T...........T........T..T
+T..TTTTTTTTTTTTTTTTTTT..TTTT..TTTT
+T........T..............T..T.....T
+T........T..............T..T.....T
+TTTTTTT..T..TTTTTTTTTTTTT..TTTT..T
+T........T........T...........T..T
+T........T........T...........T..T
+T..TTTTTTTTTTTTT..T..T..TTTT..T..T
+T..............T..T..T..T..T..T..T
+T..............T..T..T..T..T..T..T
+T..TTTT..TTTTTTT..TTTT..T..T..T..T
+T.....T.....T.....T.....T.....T..T
+T.....T.....T.....T.....T.....T..T
+T..TTTTTTT..TTTTTTT..TTTTTTTTTT..T
+T..T.....T..T.....T..............T
+T..T.....T..T.....T..............F
+TTTT..T..T..T..T..T..TTTTTTTTTTTTT
+T.....T.....T..T..T.....T........T
+T.....T.....T..T..T.....T........T
+T..TTTTTTTTTT..T..TTTT..TTTT..T..T
+T..............T..............T..T
+T..............T..............T..T
+TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT

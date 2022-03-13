@@ -12,13 +12,13 @@ public class HeuristicButton : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gM = GameManager.instance;
+        testGraph = gM.GetTesterGraph() as TesterGraph;
+
         Button btn = heuButton.GetComponent<Button>();
         btn.onClick.AddListener(onClick);  
 
         heuButton.GetComponentInChildren<Text>().text = detectHeuristic();
-
-        gM = GameManager.instance;
-        testGraph = gM.GetTesterGraph() as TesterGraph;
     }
 
     void onClick()
