@@ -83,7 +83,6 @@ namespace UCM.IAV.Movimiento
                 direccion.lineal.z = Input.GetAxis("Horizontal") * -1;
                 direccion.lineal.Normalize();
                 direccion.lineal *= agente.aceleracionMax * slow;
-                Debug.Log(slow);
             }
             return direccion;
         }

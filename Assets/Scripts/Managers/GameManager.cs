@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
     {
         testGraph.heu = (testGraph.heu == AStarHeuristic.Manhattan) ? AStarHeuristic.Euclideo : AStarHeuristic.Manhattan;
     }
+    public void ChangeSmoothPath()
+    {
+        testGraph.smoothPath = !testGraph.smoothPath;
+    }
 
     public void SetGraph(Graph gph){
         this.graph = gph;

@@ -160,11 +160,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   peso: 1
-  prioridad: 1
+  prioridad: 5
   objetivo: {fileID: 0}
   graph: {fileID: 0}
   avoidDistance: 0
-  minotaurSight: 100
+  minotaurSight: 8
 --- !u!114 &3009942697612317641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
   umbralPrioridad: 0.2
   velocidadMax: 3
   rotacionMax: 6
-  aceleracionMax: 12
+  aceleracionMax: 9
   aceleracionAngularMax: 180
   velocidad: {x: 0, y: 0, z: 0}
   rotacion: 0
@@ -227,7 +227,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2.23857, z: 2}
+  m_Size: {x: 3, y: 2.23857, z: 3}
   m_Center: {x: 0, y: 1.2283982, z: 0}
 --- !u!1001 &1187404024817514853
 PrefabInstance:

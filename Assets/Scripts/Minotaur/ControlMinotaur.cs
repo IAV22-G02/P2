@@ -37,7 +37,7 @@
             player = gM.GetPlayer();
             graph = gM.GetGraph() as GraphGrid;
             testGraph = gM.GetTesterGraph();
-            lostFocusTime = 6.0f;
+            lostFocusTime = 4.0f;
             timeToChange = 0;
             timeSinceLastChange = 0;
         }
@@ -55,45 +55,61 @@
             //Si no caza
             if (!chasing)
             {
-
                 return direccion;
             }
             else
             {
-                //Asignacion de objetivo
-                Vector3 directionRay = -transform.up;
-                Vector3 from = this.transform.position;
-                from.y += 0.5f;
-                RaycastHit hit;
-                if (Physics.Raycast(from, directionRay, out hit, 1))
+                this.transform.LookAt(player.transform.position);
+                if (path == null || pathCount >= path.Count)
                 {
-                    Debug.DrawRay(from, directionRay, Color.yellow);
-                    GameObject vert = hit.collider.gameObject;
-                    if (vert.GetComponent<Vertex>()){
-                        lastCell = currentCell = vert.GetComponent<Vertex>();
-                        path = testGraph.getPathToNodeFrom(player, vert);
-                        setCostCell(ref lastCell, graph.minotaurCost);
-                        pathCount = 0;
-                    }
-                }
-                //Seguir camino si existe
-                if (path.Count > 0 && pathCount >= 0)
-                {
-                    direccion.lineal = -(path[pathCount].transform.position - this.gameObject.transform.position);   //Sigue el Camino
-                                                                                                                     //Si ha llegado a la siguiente casilla
-                    if (direccion.lineal.magnitude <= 0.8)
+                    //Asignacion de objetivo
+                    Vector3 directionRay = -transform.up;
+                    Vector3 from = this.transform.position;
+                    from.y += 0.5f;
+                    RaycastHit hit, hit2;
+                    if (Physics.Raycast(from, directionRay, out hit, 1))
                     {
-                        if (pathCount < path.Count - 1){
-                            pathCount++;    //Avanza el camino
-                            lastCell = path[pathCount - 1];
-                            setCostCell(ref lastCell, graph.defaultCost);
-                            currentCell = path[pathCount];
-                            setCostCell(ref currentCell, graph.minotaurCost);
+                        GameObject vertMin = hit.collider.gameObject;
+                        from = player.transform.position; from.y += 0.5f;
+                        if (Physics.Raycast(from, directionRay, out hit2, 1))
+                        {
+                            GameObject vertPlayer = hit2.collider.gameObject;
+                            if (vertMin.GetComponent<Vertex>() && vertPlayer.GetComponent<Vertex>())
+                            {
+                                path = testGraph.getPathToNodeFrom(vertPlayer, vertMin);
+                                lastCell = currentCell = vertMin.GetComponent<Vertex>();
+                                setCostCell(ref lastCell, graph.minotaurCost);
+                                pathCount = 0;
+                            }
                         }
                     }
-                    direccion.lineal.Normalize();
-                    direccion.angular = agente.aceleracionAngularMax;
-                    direccion.lineal *= agente.aceleracionMax;
+                }
+                else
+                {
+                    //Seguir camino si existe
+                    if (path.Count > 0 && pathCount >= 0)
+                    {
+                        direccion.lineal = path[pathCount].transform.position - this.gameObject.transform.position;   //Sigue el Camino
+                                                                                                                      //Si ha llegado a la siguiente casilla
+                        if (direccion.lineal.magnitude <= 0.8)
+                        {
+                            if (pathCount < path.Count - 1)
+                            {
+                                pathCount++;    //Avanza el camino
+                                lastCell = path[pathCount - 1];
+                                setCostCell(ref lastCell, graph.defaultCost);
+                                currentCell = path[pathCount];
+                                setCostCell(ref currentCell, graph.minotaurCost);
+                            }
+                            else if (pathCount == path.Count - 1)
+                                pathCount++;
+                            else
+                                return direccion;
+                        }
+                        direccion.lineal.Normalize();
+                        direccion.angular = agente.aceleracionAngularMax;
+                        direccion.lineal *= agente.aceleracionMax;
+                    }
                 }
                 //Debug.Log(direccion.lineal);
                 timeSinceLastChange += Time.deltaTime;
@@ -101,51 +117,6 @@
                 return direccion;
             }
         }
-
-
-        //if (!objectiveReached)
-        //{
-        //    //Asignacion de objetivo
-        //    //Obtencion del camino
-        //    Vector3 directionRay = -transform.up;
-        //    Vector3 from = this.transform.position;
-        //    from.y += 0.5f;
-        //    RaycastHit hit;
-        //    if (Physics.Raycast(from, directionRay, out hit, 1))
-        //    {
-        //        Debug.DrawRay(from, directionRay, Color.yellow);
-        //        GameObject vert = hit.collider.gameObject;
-        //        if (vert.GetComponent<Vertex>())
-        //        {
-        //            path = tstGph.getPathToNodeFrom(player, this.gameObject);
-        //            pathCount = 0;
-        //            //Reset timer y objetivo
-        //            objectiveReached = true;
-        //        }
-        //    }
-        //}
-        //else if(chasing)
-        //{
-        //    Debug.Log("Hola holita vecinito");
-        //    //Seguir camino si existe
-        //    if (path.Count > 0 && pathCount >= 0)
-        //    {
-        //        direccion.lineal = path[pathCount].transform.position - this.gameObject.transform.position;   //Sigue el Camino
-        //        //Si ha llegado a la siguiente casilla
-        //        if (direccion.lineal.magnitude <= 0.2)
-        //        {
-        //            if (pathCount < path.Count - 1)
-        //                pathCount++;    //Avanza el camino
-        //            else
-        //                objectiveReached = true;    //Objetivo alcanzado
-        //        }
-        //        direccion.lineal.Normalize();
-        //        direccion.lineal *= agente.aceleracionMax;
-        //    }
-        //}
-        //// Podr僘mos meter una rotaci autom疸ica en la direcci del movimiento, si quisi駻amos
-        //return direccion;
-    
 
         public void PlayerDetection(Vector3 directionRay, float distance)
         {
@@ -159,11 +130,18 @@
                     //Timer para que deje de seguir al jugador si no lo ve
                     timeToChange = timeSinceLastChange + lostFocusTime;
                     chasing = true;
+                    this.GetComponent<Wander>().enabled = false;
+                    Debug.DrawRay(from, directionRay*distance, Color.green);
                 }
+
             }
 
             if (timeSinceLastChange >= timeToChange)
+            {
+                Debug.DrawRay(from, directionRay*distance, Color.white);    
                 chasing = false;
+                this.GetComponent<Wander>().enabled = true;
+            }
         }
 
         public void setCostCell(ref Vertex vertex, in float cost){

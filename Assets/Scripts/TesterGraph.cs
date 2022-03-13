@@ -38,7 +38,7 @@ namespace UCM.IAV.Navegacion
         public Graph graph;
         public TesterGraphAlgorithm algorithm;
         public AStarHeuristic heu;
-        public bool smoothPath;
+        public bool smoothPath = false;
         public string vertexTag = "Vertex"; // Etiqueta de un nodo normal
         public string obstacleTag = "Wall"; // Etiqueta de un obstáculo, tipo pared...
         public Color pathColor;
@@ -73,54 +73,6 @@ namespace UCM.IAV.Navegacion
             //playerPos = graph.;
             path = new List<Vertex>();
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-            // El origen se marca haciendo click
-            //if (Input.GetMouseButtonDown(0))
-            //{
-            //    playerPos = GetNodeFromScreen(Input.mousePosition);
-            //}
-            // El destino simplemente poniendo el ratón encima
-            //finalMazePos = GetNodeFromScreen(Input.mousePosition);
-
-            // Con la barra espaciadora se activa la búsqueda del camino mínimo
-            //if (Input.GetKeyDown(KeyCode.Space))
-            //{
-            //    if (path.Count != 0)
-            //    {
-            //        ShowPath(path, Color.white);
-            //        path = new List<Vertex>();
-            //    }
-            //    switch (algorithm)
-            //    {
-            //        case TesterGraphAlgorithm.ASTAR:
-            //            {
-            //                switch (heu)
-            //                {
-            //                    case AStarHeuristic.Euclideo:
-            //                        path = graph.GetPathAstar(playerPos, finalMazePos, graph.EuclidDist); // Se pasa la heurística
-            //                        break;
-            //                    case AStarHeuristic.Manhattan:
-            //                        path = graph.GetPathAstar(playerPos, finalMazePos, graph.ManhattanDist); // Se pasa la heurística
-            //                        break;
-            //                }
-            //                break;
-            //            }
-            //        default:
-            //        case TesterGraphAlgorithm.BFS:
-            //            path = graph.GetPathBFS(playerPos, finalMazePos);
-            //            break;
-            //        case TesterGraphAlgorithm.DFS:
-            //            path = graph.GetPathDFS(playerPos, finalMazePos);
-            //            break;
-            //    }
-            //    if (smoothPath)
-            //        path = graph.Smooth(path); // Suavizar el camino, una vez calculado
-            //}
-        }
-
         public List<Vertex> getPathToNodeFrom(GameObject ori, GameObject dest){
             switch (algorithm){
                 case TesterGraphAlgorithm.ASTAR:

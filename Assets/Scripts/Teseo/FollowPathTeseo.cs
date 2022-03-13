@@ -105,7 +105,7 @@ namespace UCM.IAV.Movimiento
 
             if (pathToFollow.Count != 0)
             {
-                Debug.Log("Showing Path");
+                //Debug.Log("Showing Path");
                 tstGph.ShowPath(pathToFollow, Color.white);
                 //pathToFollow = new List<Vertex>();
             }
@@ -126,12 +126,6 @@ namespace UCM.IAV.Movimiento
             {
                 v = pathToFollow[i];
                 Gizmos.DrawSphere(v.transform.position, 0.433f);
-                //if (smoothPath && i != 0)
-                //{
-                //    Vertex prev = path[i - 1];
-                //    Gizmos.DrawLine(v.transform.position, prev.transform.position);
-
-                //}
             }
         }
 
