@@ -1,9 +1,8 @@
 # Documentación Práctica 2
 ___________________________________________________________________________
 
-<!---
- # Video de pruebas [aquí](https://youtu.be/ztK_XIu5nJk)
--->
+
+# Video de pruebas [aquí](https://youtu.be/m3P0ARS3uws)
 
 # Autores
 
