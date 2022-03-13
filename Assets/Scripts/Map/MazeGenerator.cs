@@ -25,6 +25,16 @@ namespace Maze {
 
         public bool getFinish() => finish;
 
+        public bool setStart(bool s) => start = s;
+
+        public bool setFinish(bool s) => finish = s;
+
+
+        ~MazeGenerator(){
+            start = false;
+            finish = false;
+        }
+
         public void setSize(int width, int height){
             _width = width;
             _height = height;

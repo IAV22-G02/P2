@@ -57,10 +57,16 @@ namespace UCM.IAV.Navegacion
 
         private GameObject minotaurCell, minotaurGO;
 
+
+
         int getNumCells(){
             return numCells;
         }
 
+        public override void Start(){
+            base.Start();
+            gM.SetGraphGrid(this);
+        }
         private int GridToId(int x, int y)
         {
             return Math.Max(numRows, numCols) * y + x;
@@ -84,6 +90,8 @@ namespace UCM.IAV.Navegacion
 
         private void LoadMap(string filename)
         {
+
+
             string path = Application.dataPath + "/" + mapsDir + "/" + filename;
             try
             {

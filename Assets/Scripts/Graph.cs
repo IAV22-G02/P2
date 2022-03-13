@@ -45,8 +45,9 @@ namespace UCM.IAV.Navegacion
         // Used for getting path in frames
         public List<Vertex> path;
         //public bool isFinished;
-
+        protected GameManager gM;
         public virtual void Awake() {
+            gM = GameManager.instance;
             GameManager.instance.SetGraph(this);            
             Load();
         }

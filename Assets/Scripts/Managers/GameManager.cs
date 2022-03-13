@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     TesterGraph testGraph;
     GameObject playerInstance;
 
-
+    GraphGrid grapGrid;
 
     // Start is called before the first frame update
     void Awake(){
@@ -48,10 +48,22 @@ public class GameManager : MonoBehaviour
     public void SetGraph(Graph gph){
         this.graph = gph;
     }
+
     public Graph GetGraph()
     {
         return this.graph;
     }
+
+    public void SetGraphGrid(GraphGrid gph)
+    {
+        this.grapGrid = gph;
+    }
+
+    public GraphGrid GetGraphGrid()
+    {
+        return this.grapGrid;
+    }
+
     public void SetTesterGraph(TesterGraph gph)
     {
         this.testGraph= gph;
@@ -75,10 +87,13 @@ public class GameManager : MonoBehaviour
         mazeGen.setSize(width, height);
 
         while (!mazeGen.getStart() || !mazeGen.getFinish()){
+            Debug.Log("a");
             mazeGen.Generate();
             mazeGen.Display();
-
         }
+
+        mazeGen.setFinish(false);
+        mazeGen.setStart(false);
     }
     
     public void changeScene()

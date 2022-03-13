@@ -16,7 +16,9 @@ public class UIManager : MonoBehaviour
     void Start(){
         size = (sizeMinLimit - 1) / 3;
 
-        textSize.text = string.Format("{0} x {0}", (size* 3 +1) );
+        if(textSize != null)
+            textSize.text = string.Format("{0} x {0}", (size * 3 + 1));
+
         gM = GameManager.instance;
         if (gM == null)
             Debug.LogError("There is not GameManager");
@@ -47,6 +49,7 @@ public class UIManager : MonoBehaviour
     }
 
     public void GenerateMap(){
+        Debug.Log(size);
         gM.createMap(size, size);
     }
 
