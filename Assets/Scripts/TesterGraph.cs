@@ -17,6 +17,8 @@ namespace UCM.IAV.Navegacion
 {
 
     using UnityEngine;
+    using UnityEditor;
+    using UnityEngine.SceneManagement;
     using System.Collections.Generic;
 
     // Posibles algoritmos para buscar caminos en grafos
@@ -73,14 +75,20 @@ namespace UCM.IAV.Navegacion
             //playerPos = graph.;
             path = new List<Vertex>();
         }
-        public List<Vertex> getPathToNodeFrom(GameObject ori, GameObject dest){
+        public List<Vertex> getPathToNodeFrom(GameObject ori, GameObject dest, ref double time){
+            time = 0;
+
+            double beforeInterval = Time.realtimeSinceStartup;
             switch (algorithm){
                 case TesterGraphAlgorithm.ASTAR:
                     {
                         switch (heu)
                         {
                             case AStarHeuristic.Euclideo:
+                                
                                 path = graph.GetPathAstar(ori, dest, graph.EuclidDist); // Se pasa la heurística
+                                
+                                
                                 break;
                             case AStarHeuristic.Manhattan:
                                 path = graph.GetPathAstar(ori, dest, graph.ManhattanDist); // Se pasa la heurística
@@ -99,8 +107,9 @@ namespace UCM.IAV.Navegacion
 
             // Suavizar el camino, una vez calculado
             if (smoothPath)
-                path = graph.Smooth(path); 
-
+                path = graph.Smooth(path);
+            double afterInterval = Time.realtimeSinceStartup;
+            time = afterInterval - beforeInterval;
             return path;
         }
 
