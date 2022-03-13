@@ -54,4 +54,9 @@ public class UIManager : MonoBehaviour
     {
         gM.ChangeHeuristica();
     }
+
+    public void goToMenu()
+    {
+        GameManager.instance.loadMenu();
+    }
 }

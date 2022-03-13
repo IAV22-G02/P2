@@ -301,7 +301,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 757184370}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: Play
+        m_MethodName: goToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
