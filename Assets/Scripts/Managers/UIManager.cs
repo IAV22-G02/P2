@@ -43,7 +43,7 @@ public class UIManager : MonoBehaviour
 
     public void Play(){
         GenerateMap();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GameManager.instance.changeScene();
     }
 
     public void GenerateMap(){

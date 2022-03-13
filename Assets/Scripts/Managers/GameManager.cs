@@ -4,6 +4,8 @@ using UnityEngine;
 
 using Maze;
 using UCM.IAV.Navegacion;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +15,9 @@ public class GameManager : MonoBehaviour
     Graph graph;
     TesterGraph testGraph;
     GameObject playerInstance;
+
+
+
     // Start is called before the first frame update
     void Awake(){
         if (instance == null){
@@ -24,6 +29,13 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+    public void Update()
+    {
+
+    }
+
+
     public void ChangeHeuristica()
     {
         testGraph.heu = (testGraph.heu == AStarHeuristic.Manhattan) ? AStarHeuristic.Euclideo : AStarHeuristic.Manhattan;
@@ -63,5 +75,10 @@ public class GameManager : MonoBehaviour
             mazeGen.Display();
 
         }
+    }
+    
+    public void changeScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
