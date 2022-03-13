@@ -173,6 +173,19 @@
                 }
             }
         }
+
+        public void OnTriggerEnter(Collider collision)
+        {
+            if (collision.gameObject == player){
+                player.GetComponent<ControlJugador>().isNearMinotaur(true);
+            }
+        }
+        public void OnTriggerExit(Collider collision)
+        {
+            if (collision.gameObject == player){
+                player.GetComponent<ControlJugador>().isNearMinotaur(false);
+            }
+        }
     }
 
 }

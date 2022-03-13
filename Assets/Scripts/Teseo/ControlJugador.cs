@@ -38,6 +38,8 @@ namespace UCM.IAV.Movimiento
         bool activeLight = false;
 
         bool walking;
+        bool nearMinotaur = false;
+
         public override void Start(){
             base.Start();
             animC = GetComponentInChildren<Animator>();
@@ -75,13 +77,20 @@ namespace UCM.IAV.Movimiento
         public override Direccion GetDirection(){
             Direccion direccion = new Direccion();
             if (walking) {
+                float slow = (nearMinotaur) ? 0.3f : 1.0f;
                 direccion.angular = rotationSpeed;
                 direccion.lineal.x = Input.GetAxis("Vertical");
                 direccion.lineal.z = Input.GetAxis("Horizontal") * -1;
                 direccion.lineal.Normalize();
-                direccion.lineal *= agente.aceleracionMax;
+                direccion.lineal *= agente.aceleracionMax * slow;
+                Debug.Log(slow);
             }
             return direccion;
+        }
+
+        public void isNearMinotaur(bool state)
+        {
+            nearMinotaur = state;
         }
     }
 }
