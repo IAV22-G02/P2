@@ -62,4 +62,9 @@ public class UIManager : MonoBehaviour
     {
         GameManager.instance.loadMenu();
     }
+
+    public void quitApp()
+    {
+        Application.Quit();
+    }
 }
