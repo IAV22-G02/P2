@@ -167,7 +167,7 @@ namespace UCM.IAV.Navegacion
             return new List<Vertex>();
         }
 
-        public List<Vertex> GetPathAstar(GameObject srcObj, GameObject dstObj, Heuristic h = null) {
+        public List<Vertex> GetPathAstar(GameObject srcObj, GameObject dstObj, ref float cost_, Heuristic h = null) {
             // AQUÍ HAY QUE PONER LA IMPLEMENTACIÓN DEL ALGORITMO A*
             // ...
 
@@ -225,6 +225,8 @@ namespace UCM.IAV.Navegacion
                         frontier.Remove(e);
                         child = new Edge(e.vertex, cost);
                         frontier.Add(child);
+
+                        cost_ += cost;
                     }
                 }
             }

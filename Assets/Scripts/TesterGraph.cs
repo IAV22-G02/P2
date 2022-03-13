@@ -75,7 +75,7 @@ namespace UCM.IAV.Navegacion
             //playerPos = graph.;
             path = new List<Vertex>();
         }
-        public List<Vertex> getPathToNodeFrom(GameObject ori, GameObject dest, ref double time){
+        public List<Vertex> getPathToNodeFrom(GameObject ori, GameObject dest, ref double time, ref float cost){
             time = 0;
 
             double beforeInterval = Time.realtimeSinceStartup;
@@ -86,12 +86,12 @@ namespace UCM.IAV.Navegacion
                         {
                             case AStarHeuristic.Euclideo:
                                 
-                                path = graph.GetPathAstar(ori, dest, graph.EuclidDist); // Se pasa la heurística
+                                path = graph.GetPathAstar(ori, dest, ref cost, graph.EuclidDist); // Se pasa la heurística
                                 
                                 
                                 break;
                             case AStarHeuristic.Manhattan:
-                                path = graph.GetPathAstar(ori, dest, graph.ManhattanDist); // Se pasa la heurística
+                                path = graph.GetPathAstar(ori, dest,ref cost, graph.ManhattanDist); // Se pasa la heurística
                                 break;
                         }
                         break;

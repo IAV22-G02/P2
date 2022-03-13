@@ -52,7 +52,7 @@ namespace UCM.IAV.Movimiento
             if (fps != null) fps.text = "Frames:" + (((int)(ultimaVez * 100 + .5) / 100.0)).ToString();
 
             if (size != null) size.text = "Size:" + graph.GetSize() + "\n" + "Explored:" + graphGrid.numVisited.ToString() + "\n" +
-                    "Path Length:" + pt.ToString() + "\n" + "Time:" + time.ToString();
+                    "Path Length:" + pt.ToString() + "\n" + "Time:" + time.ToString() + "\n" +"Cost:" + t.getCost();
         }
     }
 }

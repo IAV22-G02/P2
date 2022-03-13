@@ -49,6 +49,11 @@ namespace UCM.IAV.Movimiento
             return time;
         }
 
+        public float getCost()
+        {
+            return cost;
+        }
+
         // Start is called before the first frame update
         public override void Start()
         {
@@ -83,6 +88,7 @@ namespace UCM.IAV.Movimiento
             }
 
             if (Input.GetKey(KeyCode.Space)) {
+                cost = 0;
                 following = true;
                 animC.SetBool("running", true);
                 Debug.Log("Calculating Path");
@@ -101,7 +107,7 @@ namespace UCM.IAV.Movimiento
                             graphGrid.numVisited++;
                         }
 
-                        pathToFollow = tstGph.getPathToNodeFrom(endMaze, vert, ref time);
+                        pathToFollow = tstGph.getPathToNodeFrom(endMaze, vert, ref time,ref cost);
                         lineRendererCam.positionCount = pathToFollow.Count;
                         lineRendererCam.SetPosition(0, gameObject.transform.position);
                         for (int i = 1; i < pathToFollow.Count; i++){
