@@ -1147,8 +1147,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2126994648}
+  scale: 0.5
   smoothSpeed: 0.125
-  cameraOffset: {x: -2, y: 8.7, z: 0}
+  cameraOffset: {x: -4, y: 9, z: 0}
   angularOffset: {x: -6, y: 0, z: 0}
 --- !u!120 &1215951691
 LineRenderer:
