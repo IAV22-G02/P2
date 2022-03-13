@@ -34,6 +34,21 @@ namespace UCM.IAV.Movimiento
         bool following;
 
         int pathIterator;
+
+        float cost = 0;
+
+        double time = 0;
+
+        public float getPathLenght()
+        {
+            return pathToFollow.Count;
+        }
+
+        public double getTime()
+        {
+            return time;
+        }
+
         // Start is called before the first frame update
         public override void Start()
         {
@@ -86,7 +101,7 @@ namespace UCM.IAV.Movimiento
                             graphGrid.numVisited++;
                         }
 
-                        pathToFollow = tstGph.getPathToNodeFrom(endMaze, vert);
+                        pathToFollow = tstGph.getPathToNodeFrom(endMaze, vert, ref time);
                         lineRendererCam.positionCount = pathToFollow.Count;
                         lineRendererCam.SetPosition(0, gameObject.transform.position);
                         for (int i = 1; i < pathToFollow.Count; i++){

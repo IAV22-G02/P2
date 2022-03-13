@@ -29,7 +29,7 @@
 
         int pathCount = 0;
 
-
+        double time = 0;
         public override void Start()
         {
             base.Start();
@@ -76,7 +76,7 @@
                             GameObject vertPlayer = hit2.collider.gameObject;
                             if (vertMin.GetComponent<Vertex>() && vertPlayer.GetComponent<Vertex>())
                             {
-                                path = testGraph.getPathToNodeFrom(vertPlayer, vertMin);
+                                path = testGraph.getPathToNodeFrom(vertPlayer, vertMin, ref time);
                                 lastCell = currentCell = vertMin.GetComponent<Vertex>();
                                 setCostCell(ref lastCell, graph.minotaurCost);
                                 pathCount = 0;

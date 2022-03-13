@@ -25,6 +25,7 @@ using UCM.IAV.Navegacion;
 
         Vertex lastCell, currentCell;
 
+        double time = 0;
         public override void Start()
         {
             base.Start();
@@ -59,7 +60,7 @@ using UCM.IAV.Navegacion;
                     GameObject vert = hit.collider.gameObject;
                     if (vert.GetComponent<Vertex>())
                     {
-                        path = testGraph.getPathToNodeFrom(mapCells[target], vert);
+                        path = testGraph.getPathToNodeFrom(mapCells[target], vert, ref time);
                         pathCount = 0;
                         lastCell = currentCell = vert.GetComponent<Vertex>();
                         ctrlMinot.setCostCell(ref lastCell, graph.minotaurCost);
