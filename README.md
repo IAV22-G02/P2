@@ -71,8 +71,6 @@ Además vamos reutilizar gran parte de la estructura de movimiento de la Practic
 
 La solución también consta de funcionalidades opcionlaes tales como:
 + Generación procedimental de laberintos (realizado)
-+ Permite añadir más salidas al laberinto y modifica a Teseo para que, si hay varias
-salidas, salga por la más cercana, utilizando para ello el algoritmo de Dijkstra.
 
 
 El pseudocódigo de dichos componentes:
